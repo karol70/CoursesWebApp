@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Menu from './Menu';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SingleCategory from './categories/SingleCategory';
+import { categoriesDTO } from './categories/categories.model';
+import CategoriesList from './categories/CategoriesList';
+import MainPage from './MainPage';
+import SingleCourse from './courses/SingleCourse';
+import Courses from './courses/Courses';
+import CourseDetails from './courses/CourseDetails';
+
 
 function App() {
+  
+     
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter >
+      <Menu/> 
+      <Routes>
+        <Route path="/" element={<MainPage/>}/>
+        <Route path="/courses" element={<Courses/>}/>
+        <Route path="/courses/:id" element={<CourseDetails/>}/>
+ 
+      </Routes>
+    </BrowserRouter>
+    
   );
 }
 
