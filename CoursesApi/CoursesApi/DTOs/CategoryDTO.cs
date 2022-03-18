@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CoursesApi.Entities
+﻿namespace CoursesApi.DTOs
 {
-    public class Category
+    public class CategoryDTO
     {
         public int Id { get; set; }
-        
         public string Name { get; set; }
         public string CategoryImage { get; set; }
     }

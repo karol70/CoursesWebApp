@@ -9,7 +9,7 @@ export default function SingleCategory(props: categoriesDTO){
         <div className={css.div}>
             <Link key={props.id} to={`/courses?categoryId=${props.id}`}>
                 <p>{props.name}</p>
-                <img alt="img" src ={props.img}/>
+                <img alt="img" src ={props.categoryImage}/>
             </Link>               
         </div>
     )

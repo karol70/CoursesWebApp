@@ -20,7 +20,7 @@ export default function CourseDetails(){
                         category: {
                             id: 2,
                             name: 'IT',
-                            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnlpGa2TlS6LoN7fv70J7H3lV_QTrqPXxQ5A&usqp=CAU',
+                            categoryImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnlpGa2TlS6LoN7fv70J7H3lV_QTrqPXxQ5A&usqp=CAU',
             
                         },
                         type: "online",

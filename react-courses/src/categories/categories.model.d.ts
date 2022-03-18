@@ -1,9 +1,7 @@
 export interface categoriesDTO{
     id: number;
     name: string;
-    img?: string;
-    course?: boolean;
-    privateLesson?: boolean;
+    categoryImage: string;   
 }
 
 export interface typesDTO{

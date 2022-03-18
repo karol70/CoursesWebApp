@@ -3,12 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Menu from './Menu';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SingleCategory from './categories/SingleCategory';
-import { categoriesDTO } from './categories/categories.model';
-import CategoriesList from './categories/CategoriesList';
 import MainPage from './MainPage';
-import SingleCourse from './courses/SingleCourse';
-import Courses from './courses/Courses';
+import Courses from '../src/courses/Courses';
 import CourseDetails from './courses/CourseDetails';
 
 
