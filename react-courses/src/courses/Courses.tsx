@@ -13,7 +13,7 @@ export default function Curses(){
     const query = new URLSearchParams(useLocation().search);
     const navigate = useNavigate();
 
-    const categories: categoriesDTO[]=[{id:1,name:'IT'},{id:2,name:'Fotografia i wideo'},{id:3,name:'Motoryzacja'}];
+    
     const types: typesDTO[]=[{id:1,name:"Online"},{id:2,name:"Stacjonarnie"},{id:3,name:"Inna forma"}];
     const cities: citiesDTO[]=[{id:1,name:"Lublin"},{id:2,name:"Warszawa"},{id:3,name:"Kraków"}];
 
@@ -35,7 +35,7 @@ export default function Curses(){
                         category: {
                             id: 2,
                             name: 'IT',
-                            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnlpGa2TlS6LoN7fv70J7H3lV_QTrqPXxQ5A&usqp=CAU',
+                            categoryImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnlpGa2TlS6LoN7fv70J7H3lV_QTrqPXxQ5A&usqp=CAU',
                         },
                         type: "online",
                         city: "Lublin"
@@ -48,6 +48,7 @@ export default function Curses(){
                         category: {
                             id: 2,
                             name: 'IT',
+                            categoryImage: " asd"
                             
                         },
                         type: "online",
@@ -133,7 +134,7 @@ export default function Curses(){
                                 {...formikProps.getFieldProps("categoryId")}
                                 >
                                     <option value="0">Kategoria</option>
-                                    {categories.map(category=> <option key={category.id} value={category.id}>{category.name}</option>)}
+                                    {/* {categories.map(category=> <option key={category.id} value={category.id}>{category.name}</option>)} */}
                                 </select>
                             </div>
                             <div className="col-auto">
