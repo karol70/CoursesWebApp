@@ -1,7 +1,7 @@
 export interface categoriesDTO{
     id: number;
     name: string;
-    categoryImage: string;   
+    categoryImage: string;       
 }
 
 export interface typesDTO{

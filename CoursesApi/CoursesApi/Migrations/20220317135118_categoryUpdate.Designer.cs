@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoursesApi.Migrations
 {
-    [DbContext(typeof(CoursesDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220317135118_categoryUpdate")]
     partial class categoryUpdate
     {

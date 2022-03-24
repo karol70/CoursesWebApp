@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoursesApi.APIBehaviour;
 using CoursesApi.Entities;
 using CoursesApi.Filters;
 using CoursesApi.Helpers;
@@ -21,7 +22,7 @@ namespace CoursesApi
         {
 
               var connectionString = Configuration.GetConnectionString("WebApiDatabase");
-              services.AddDbContext<CoursesDbContext>(options =>
+              services.AddDbContext<ApplicationDbContext>(options =>
               options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
               mySqlOptionsAction => mySqlOptionsAction.UseNetTopologySuite()));
 
@@ -31,25 +32,28 @@ namespace CoursesApi
                 config.AddProfile(new AutoMapperProfile());
             }).CreateMapper());
 
-            // services.AddDbContext<CoursesDbContext>();
+            
 
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(MyExceptionFilter));
-            });
+                options.Filters.Add(typeof(ParseBadRequest));
+            }).ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
             
-            services.AddScoped<CategorySeeder>();
+            services.AddScoped<CourseCategorySeeder>();
             services.AddScoped<CitySeeder>();
             services.AddScoped<CourseTypeSeeder>();
+            services.AddScoped<PrivateLessonsCategorySeeder>();
 
             services.AddScoped<IFileStorageService, InAppStorageService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
@@ -59,18 +63,19 @@ namespace CoursesApi
                 options.AddDefaultPolicy(builder =>
                 {
                     builder.WithOrigins(fronendURL).AllowAnyMethod().AllowAnyHeader();
-                  //  .WithExposedHeaders(new string[] { "totalAmountOfRecords" });
+                   // .WithExposedHeaders(new string[] { "totalAmountOfRecords" });
 
                 });
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CategorySeeder categorySeeder, CitySeeder citySeeder,
-            CourseTypeSeeder courseTypeSeeder)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CourseCategorySeeder courseCategorySeeder, CitySeeder citySeeder,
+            CourseTypeSeeder courseTypeSeeder, PrivateLessonsCategorySeeder privateLessonsCategorySeeder)
         {
-            categorySeeder.Seed();
+            courseCategorySeeder.Seed();
             citySeeder.Seed();
             courseTypeSeeder.Seed();
+            privateLessonsCategorySeeder.Seed();
 
             if (env.IsDevelopment())
             {
@@ -89,8 +94,6 @@ namespace CoursesApi
             app.UseAuthorization();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

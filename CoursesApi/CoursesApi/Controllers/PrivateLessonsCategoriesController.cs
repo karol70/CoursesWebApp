@@ -6,33 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoursesApi.Controllers
 {
-    [Route("api/categories")]
+    [Route("api/privateLessonsCategories")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class PrivateLessonsCategoriesController: ControllerBase
     {
-
-        private readonly ILogger<CategoriesController> _logger;
-        private readonly CoursesDbContext _context;
+        private readonly ILogger<PrivateLessonsCategoriesController> _logger;
+        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public CategoriesController(ILogger<CategoriesController> logger, CoursesDbContext context, IMapper mapper)
+        public PrivateLessonsCategoriesController(ILogger<PrivateLessonsCategoriesController> logger, ApplicationDbContext context, IMapper mapper)
         {
-
             _logger = logger;
             _context = context;
             _mapper = mapper;
         }
 
-        
-
         [HttpGet]
         public async Task<ActionResult<List<CategoryDTO>>> Get()
-        {        
-            var categories = await _context.Categories.OrderBy(x => x.Name).ToListAsync();
+        {
+            var categories = await _context.PrivateLessonsCategories.OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<CategoryDTO>>(categories);
         }
-
-
-
     }
 }

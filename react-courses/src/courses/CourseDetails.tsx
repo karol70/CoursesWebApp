@@ -10,33 +10,6 @@ export default function CourseDetails(){
     const{id}: any = useParams();
     const [course, setCourse] = useState<courseDTO>();
 
-    useEffect(() => {
-        const timerId = setTimeout(() => {
-            setCourse(                
-                    {
-                        id: 1,
-                        title: 'C++ poziom zaawansowany',
-                        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/213px-ISO_C%2B%2B_Logo.svg.png",
-                        category: {
-                            id: 2,
-                            name: 'IT',
-                            categoryImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnlpGa2TlS6LoN7fv70J7H3lV_QTrqPXxQ5A&usqp=CAU',
-            
-                        },
-                        type: "online",
-                        city: "Lublin",
-                        description: "Jest to szkolenie z C++ dla zaawansowanych. Omawiamy zagadnienia z OOP - programowania obiektowego oraz czystego kodu",
-                        plan: `1. Początek
-                        2.Środek
-                        3.Koniec`,
-                        contact: "karolwg19@gmail.com",
-                        mainPage: "karolwegrzyn.pl"       
-                      }
-            )
-            },1);   
-        return () => clearTimeout(timerId);
-      });
-
     return(
         course? <div className="container mt-3" style={{display: 'flex'}}>
             <div className={css.left}> 

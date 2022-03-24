@@ -18,5 +18,5 @@ interface buttonProps{
 Button.defaultProps ={
     type: "button",
     disabled: false,
-    className: "btn btn-primary"
+    className: "btn btn-primary mx-3"
 }

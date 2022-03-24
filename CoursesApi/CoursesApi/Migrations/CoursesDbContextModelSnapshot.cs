@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoursesApi.Migrations
 {
-    [DbContext(typeof(CoursesDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class CoursesDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -17,25 +17,6 @@ namespace CoursesApi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("CoursesApi.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("CategoryImage")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
 
             modelBuilder.Entity("CoursesApi.Entities.City", b =>
                 {
@@ -58,7 +39,111 @@ namespace CoursesApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CourseHomePage")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("varchar(25)");
+
+                    b.Property<string>("Plan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CourseCategoriesCourses", b =>
+                {
+                    b.Property<int>("CourseCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CourseCategoryId", "CourseId");
+
+                    b.HasIndex("CourseId")
+                        .IsUnique();
+
+                    b.ToTable("CourseCategoriesCourses");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CourseCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CoursesCategories");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CoursesCities", b =>
+                {
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CityId", "CourseId");
+
+                    b.HasIndex("CourseId")
+                        .IsUnique();
+
+                    b.ToTable("CoursesCities");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CoursesTypes", b =>
+                {
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TypeId", "CourseId");
+
+                    b.HasIndex("CourseId")
+                        .IsUnique();
+
+                    b.ToTable("CoursesTypes");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.PrivateLesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int>("CityId")
@@ -71,13 +156,6 @@ namespace CoursesApi.Migrations
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<string>("CourseHomePage")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("CourseTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -100,18 +178,43 @@ namespace CoursesApi.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.Property<int>("PrivateLessonsCategoryId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CategoryId");
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("CourseTypeId");
+                    b.HasIndex("PrivateLessonsCategoryId");
 
-                    b.ToTable("Courses");
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("PrivateLessons");
                 });
 
-            modelBuilder.Entity("CoursesApi.Entities.CourseType", b =>
+            modelBuilder.Entity("CoursesApi.Entities.PrivateLessonsCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PrivateLessonsCategories");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.Type", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,26 +226,83 @@ namespace CoursesApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CourseTypes");
+                    b.ToTable("Types");
                 });
 
-            modelBuilder.Entity("CoursesApi.Entities.Course", b =>
+            modelBuilder.Entity("CoursesApi.Entities.CourseCategoriesCourses", b =>
                 {
-                    b.HasOne("CoursesApi.Entities.Category", "Category")
+                    b.HasOne("CoursesApi.Entities.CourseCategory", "CourseCategory")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CourseCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CoursesApi.Entities.Course", "Course")
+                        .WithOne("CourseCategoryCourse")
+                        .HasForeignKey("CoursesApi.Entities.CourseCategoriesCourses", "CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("CourseCategory");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CoursesCities", b =>
+                {
                     b.HasOne("CoursesApi.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoursesApi.Entities.CourseType", "CourseType")
+                    b.HasOne("CoursesApi.Entities.Course", "Course")
+                        .WithOne("CourseCity")
+                        .HasForeignKey("CoursesApi.Entities.CoursesCities", "CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.CoursesTypes", b =>
+                {
+                    b.HasOne("CoursesApi.Entities.Course", "Course")
+                        .WithOne("CourseType")
+                        .HasForeignKey("CoursesApi.Entities.CoursesTypes", "CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoursesApi.Entities.Type", "Type")
                         .WithMany()
-                        .HasForeignKey("CourseTypeId")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.PrivateLesson", b =>
+                {
+                    b.HasOne("CoursesApi.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoursesApi.Entities.PrivateLessonsCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("PrivateLessonsCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoursesApi.Entities.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -150,7 +310,19 @@ namespace CoursesApi.Migrations
 
                     b.Navigation("City");
 
-                    b.Navigation("CourseType");
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("CoursesApi.Entities.Course", b =>
+                {
+                    b.Navigation("CourseCategoryCourse")
+                        .IsRequired();
+
+                    b.Navigation("CourseCity")
+                        .IsRequired();
+
+                    b.Navigation("CourseType")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
