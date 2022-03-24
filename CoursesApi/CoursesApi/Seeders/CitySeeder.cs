@@ -4,10 +4,10 @@ namespace CoursesApi.Seeders
 {
     public class CitySeeder
     {
-        private readonly CoursesDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public CitySeeder(CoursesDbContext dbContext)
+        public CitySeeder(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -29,6 +29,10 @@ namespace CoursesApi.Seeders
 
             var cities = new List<City>()
             {
+                new City()
+                {
+                    Name ="Cała Polska"
+                },
                 new City()
                 {
                     Name = "Warszawa"

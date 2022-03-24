@@ -1,2 +1,6 @@
 const baseURL = process.env.REACT_APP_API_URL;
-export const urlCategories = `${baseURL}/categories`;
+export const urlCourseCategories = `${baseURL}/courseCategories`;
+export const urlPrivateLessonsCategories = `${baseURL}/privateLessonsCategories`;
+export const urlCities = `${baseURL}/cities`;
+export const urlTypes = `${baseURL}/types`;
+export const urlCourses = `${baseURL}/courses`;

@@ -2,7 +2,7 @@
 
 namespace CoursesApi.Entities
 {
-    public class Category
+    public class CourseCategory
     {
         public int Id { get; set; }
         

@@ -4,10 +4,10 @@ namespace CoursesApi.Seeders
 {
     public class CourseTypeSeeder
     {
-        private readonly CoursesDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public CourseTypeSeeder(CoursesDbContext dbContext)
+        public CourseTypeSeeder(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -15,33 +15,33 @@ namespace CoursesApi.Seeders
         {
             if (_dbContext.Database.CanConnect())
             {
-                if (!_dbContext.CourseTypes.Any())
+                if (!_dbContext.Types.Any())
                 {
                     var courseTypes = GetCourseTypes();
-                    _dbContext.CourseTypes.AddRange(courseTypes);
+                    _dbContext.Types.AddRange(courseTypes);
                     _dbContext.SaveChanges();
                 }
             }
         }
 
-        private IEnumerable<CourseType> GetCourseTypes()
+        private IEnumerable<Entities.Type> GetCourseTypes()
         {
 
-            var courseTypes = new List<CourseType>()
+            var courseTypes = new List<Entities.Type>()
             {
-                new CourseType()
+                new Entities.Type()
                 {
                     Name = "Online"
                 },
-                new CourseType()
+                new Entities.Type()
                 {
                     Name = "Stacjonarnie"
                 },
-                new CourseType()
+                new Entities.Type()
                 {
                     Name = "Hybrydowo"
                 },
-                new CourseType()
+                new Entities.Type()
                 {
                     Name = "Inny"
                 }
