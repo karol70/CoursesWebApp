@@ -16,25 +16,47 @@ import { courseCreationDTO } from "./courses.model";
 import Select from "react-select/dist/declarations/src/Select";
 import DisplayErrors from "../utils/DisplayErrors";
 import SelectField from "../forms/SelectField";
+import axios, { AxiosResponse } from "axios";
+import { urlCities, urlCourseCategories, urlTypes } from "../endpoints";
 
  export default function CourseForm (props: courseFormProps){
 
-     const categories = props.categories;
-     const types = props.types;
-     const cities= props.cities;
      
+
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
     const [selectedTypeId, setSelectedTypeId] = useState<number>(0);
     const [selectedCityId, setSelectedCityId] = useState<number>(0);
-
     const [errors,setErrors] = useState<string>()
     
-
      function mapToModel(item: {id: number, name: string}): genericModelDTO{     
         return {id: item.id, name: item.name}      
     }
-    
-    
+
+    const [categories, setCategories] = useState<categoriesDTO[]>([]);
+    const [types,setTypes] = useState<typesDTO[]>([]);
+    const [cities,setCities] = useState<citiesDTO[]>([]);
+
+    useEffect(() => {
+        axios.get(urlCourseCategories)
+          .then((response: AxiosResponse<categoriesDTO[]>) =>{
+            setCategories(response.data);
+          })  
+        },[]);
+
+    useEffect(() => {
+        axios.get(urlTypes)
+            .then((response: AxiosResponse<typesDTO[]>) =>{
+            setTypes(response.data);
+            })  
+        },[]);
+
+     useEffect(() => {
+        axios.get(urlCities)
+            .then((response: AxiosResponse<citiesDTO[]>) =>{
+            setCities(response.data);
+            })  
+        },[]);
+       
     return(
         
         <Formik
@@ -57,12 +79,11 @@ import SelectField from "../forms/SelectField";
             {(formikProps) => (
                 <Form>
                     <h3 className="mb-3">Dodaj kurs</h3>
-                    <TextField displayName="Tytuł kursu" field="title"/>
-                    <TextField displayName="Harmonogram / Plan" field="plan"/>
-                    
-                    <ImageField displayName="Zdjęcie" field="image" imageURL={""}/>
+                    <TextField displayName="Tytuł kursu" field="title" />
+                    <TextField displayName="Harmonogram / Plan" field="plan" />
+                    <ImageField displayName="Zdjęcie" field="image" imageURL={props.model.imageURL} />
 
-                    <TextField displayName="Opis" field="description"/>
+                    <TextField displayName="Opis" field="description" />
 
                     <SelectField displayName="Kategoria" field="categoryId" message="Wybierz kategorię" options={categories}
                     other={formikProps}/>
@@ -90,7 +111,4 @@ import SelectField from "../forms/SelectField";
 interface courseFormProps{
     model: courseCreationDTO;   
     onSubmit(values: courseCreationDTO,actions: FormikHelpers<courseCreationDTO>): void
-    categories: categoriesDTO[];
-    types: typesDTO[];
-    cities: citiesDTO[]; 
 }

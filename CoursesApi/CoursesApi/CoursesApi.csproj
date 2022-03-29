@@ -25,4 +25,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\courses\552f2d39-d81b-44ea-99eb-80c2e3d3962b.jpg" />
+  </ItemGroup>
+
 </Project>

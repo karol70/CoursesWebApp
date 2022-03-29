@@ -9,6 +9,7 @@ import CourseDetails from './courses/CourseDetails';
 import CourseForm from './courses/CourseForm';
 import CourseCreation from './courses/CourseCreation';
 import configureValidations from './Validations';
+import EditCourse from './courses/EditCourse';
 
 configureValidations();
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/courses" element={<Courses/>}/>
         <Route path="/courses/:id" element={<CourseDetails/>}/>
         <Route path="/courses/create" element={<CourseCreation/>}/>
+        <Route path="/courses/edit/:id" element={<EditCourse/>}/>
  
       </Routes>
     </BrowserRouter>
