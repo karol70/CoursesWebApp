@@ -10,34 +10,9 @@ import { courseCreationDTO } from "./courses.model";
 
 export default function CourseCreation(){
 
-    const [categories, setCategories] = useState<categoriesDTO[]>([]);
-    const [types,setTypes] = useState<typesDTO[]>([]);
-    const [cities,setCities] = useState<citiesDTO[]>([]);
     const navigate = useNavigate();
     const [errors,setErrors] = useState<string[]>([]);
-    
-
-    useEffect(() => {
-        axios.get(urlCourseCategories)
-          .then((response: AxiosResponse<categoriesDTO[]>) =>{
-            setCategories(response.data);
-          })  
-        },[]);
-
-    useEffect(() => {
-        axios.get(urlTypes)
-            .then((response: AxiosResponse<typesDTO[]>) =>{
-            setTypes(response.data);
-            })  
-        },[]);
-
-     useEffect(() => {
-        axios.get(urlCities)
-            .then((response: AxiosResponse<citiesDTO[]>) =>{
-            setCities(response.data);
-            })  
-        },[]);
-        
+     
     async function create(course: courseCreationDTO)
     {   
         
@@ -61,9 +36,8 @@ export default function CourseCreation(){
         <div className="container mt-3">
             <DisplayErrors errors={errors}/>
             <CourseForm onSubmit={async values => await create(values)}
-            model={{cityId:'0', typeId:'0', categoryId:'0' ,title: '', description: '', plan:'', contactEmail:'', contactTelephoneNumber:''
-            , mainPage:'',price:""}}
-            categories={categories} cities={cities} types={types}
+            model={{cityId:0, typeId:0, categoryId:0 ,title: '', description: '', plan:'', contactEmail:'', contactTelephoneNumber:''
+            , mainPage:'',price:""}}           
             />
         </div>
     )

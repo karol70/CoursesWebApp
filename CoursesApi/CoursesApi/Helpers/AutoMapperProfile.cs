@@ -20,6 +20,22 @@ namespace CoursesApi.Helpers
                .ForMember(x => x.CourseCity, options => options.MapFrom(MapCoursesCities))
                .ForMember(x => x.CourseType, options => options.MapFrom(MapCoursesTypes));
 
+            CreateMap<Course, CourseDetailsDTO>()
+                .ForMember(x => x.CategoryName, options => options.MapFrom(dto => dto.CourseCategoryCourse.Course.Name))
+                .ForMember(x => x.TypeName, options => options.MapFrom(dto => dto.CourseType.Type.Name))
+                .ForMember(x => x.CityName, options => options.MapFrom(dto => dto.CourseCity.City.Name))
+                .ForMember(x => x.CategoryId, options => options.Ignore())
+                .ForMember(x => x.CityId, options => options.Ignore())
+                .ForMember(x => x.TypeId, options => options.Ignore());
+
+
+
+
+            CreateMap<Course, CoursesDTO>()
+                .ForMember(x => x.Category, options => options.MapFrom(dto => dto.CourseCategoryCourse.CourseCategory))
+                .ForMember(x => x.Type, options => options.MapFrom(dto => dto.CourseType.Type))
+                .ForMember(x => x.City, options => options.MapFrom(dto => dto.CourseCity.City));
+                
 
 
             CreateMap<TypeCreationDTO, Entities.Type>().ReverseMap();
