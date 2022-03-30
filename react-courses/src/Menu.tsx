@@ -1,7 +1,19 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import AuthenticationContext from "./auth/AuthenticationContext";
+import Authorized from "./auth/Authorized";
+import { logout } from "./auth/handleJWT";
+import Button from "./utils/Button";
 
 
 export default function Menu(){
+
+    const {update,claims} = useContext(AuthenticationContext);
+
+    function getUserEmail():string{
+        return claims.filter(x=>x.name ==='email')[0]?.value;
+    }
+
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -15,21 +27,43 @@ export default function Menu(){
                                 Kursy i szkolenia
                             </NavLink>
                         </li>
-
+                        
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/privateLessons" >
                                 Korepetycje
                             </NavLink>
                         </li>
+                        <Authorized
+                        authorized={<>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/course/create" >
+                                Utwórz kurs
+                            </NavLink>
+                        </li>
+                        </>}
+                        />
+                        
                                                     
                     </ul>
-
-                    <div className="d-flex">                         
-                                <Link to="/register" 
-                                    className="nav-link btn btn-link">Załóż konto</Link>
-                                <Link to="/login" 
-                                    className="nav-link btn btn-link">Zaloguj się</Link>
-                    </div>
+                    <Authorized
+                    authorized={<>
+                        <span className="nav-link">Cześć {getUserEmail()}</span>
+                                     <Button className="nav-link btn btn-link"
+                                    onClick={() => {
+                                        logout();
+                                        update([]);
+                                    }}
+                                    >Logout</Button> 
+                        </>}
+                        notAuthorized={<>
+                        <div className="d-flex">                         
+                                    <Link to="/register" 
+                                        className="nav-link btn btn-link">Załóż konto</Link>
+                                    <Link to="/login" 
+                                        className="nav-link btn btn-link">Zaloguj się</Link>
+                        </div>
+                        </>}
+                    />
                 </div>
             </div>
         </nav>

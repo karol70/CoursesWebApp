@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CoursesApi.Entities
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext
     {
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -26,9 +27,6 @@ namespace CoursesApi.Entities
                 .Property(c => c.ContactEmail)
                 .IsRequired();
 
-            modelBuilder.Entity<Course>()
-                .Property(c => c.ContactNumber)
-                .IsRequired();
 
             modelBuilder.Entity<PrivateLesson>()
                 .Property(c => c.Name)
@@ -43,9 +41,6 @@ namespace CoursesApi.Entities
                 .Property(c => c.ContactEmail)
                 .IsRequired();
 
-            modelBuilder.Entity<PrivateLesson>()
-                .Property(c => c.ContactNumber)
-                .IsRequired();
 
             modelBuilder.Entity<CourseCategoriesCourses>()
                 .HasKey(x => new { x.CourseCategoryId, x.CourseId });

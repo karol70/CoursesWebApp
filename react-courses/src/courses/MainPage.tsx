@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { categoriesDTO } from "./categories/categories.model";
-import CategoriesList from "./categories/CategoriesList";
-import { urlCourseCategories, urlPrivateLessonsCategories } from "./endpoints";
+import { categoriesDTO } from "../categories/categories.model";
+import CategoriesList from "../categories/CategoriesList";
+import { urlCourseCategories, urlPrivateLessonsCategories } from "../endpoints";
 
 export default function  MainPage(){
     const [privateLessonCategories, setPrivateLessonCategories] = useState<categoriesDTO[]>([]);

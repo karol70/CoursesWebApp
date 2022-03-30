@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import { request } from "http";
 import { useEffect, useState } from "react";
-import {  useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useHistory } from "react-router-dom";
 import { forEachChild } from "typescript";
 import { categoriesDTO, citiesDTO, typesDTO } from "../categories/categories.model";
 import { urlCities, urlCourseCategories, urlCourses, urlTypes } from "../endpoints";
@@ -14,7 +14,7 @@ export default function Curses(){
 
     const [courses, setCourses] = useState<courseDTO[]>([]);
     const query = new URLSearchParams(useLocation().search);
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const [categories, setCategories] = useState<categoriesDTO[]>([]);
     const [types,setTypes] = useState<typesDTO[]>([]);
@@ -98,7 +98,7 @@ export default function Curses(){
             queryStrings.push(`cityId=${values.cityId}`);
         }
     
-        navigate(`/courses?${queryStrings.join('&')}`);
+        history.push(`/courses?${queryStrings.join('&')}`);
         
     }
 
