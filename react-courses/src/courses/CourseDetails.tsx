@@ -1,7 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useContext, useEffect, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom"
 import { urlCourses } from "../endpoints";
+import AlertContext from "../utils/AlertContext";
+import Button from "../utils/Button";
+import customConfirm from "../utils/customConfirm";
 import Loading from "../utils/Loading";
 import Ratings from "../utils/Ratings";
 import { courseDetailsDTO, courseDTO } from "./courses.model";
@@ -11,13 +14,24 @@ export default function CourseDetails(){
 
     const{id}: any = useParams();
     const [course, setCourse] = useState<courseDTO>();
+    const customAlert = useContext(AlertContext);
+    const history = useHistory();
 
     useEffect(()=>{
         axios.get(`${urlCourses}/${id}`)
-        .then((response: AxiosResponse<courseDTO>) =>{
-            setCourse(response.data);
-            }) 
+        .then((response: AxiosResponse<courseDTO>) =>{   
+            setCourse(response.data);        
+            })
+            
     },[id])
+
+    function deleteCourse(){
+            axios.delete(`${urlCourses}/${id}`)
+            .then(()=> {
+                customAlert()
+                history.push('/courses')
+            });
+    }
 
     return(
         course? <div className="container mt-4" style={{display: 'flex'}}>
@@ -49,6 +63,15 @@ export default function CourseDetails(){
             
                 {course.mainPage? <div><h5>Więcej na naszej stronie:</h5>
                 <p>{course.mainPage}</p></div> :null}
+            </div>
+            <div>
+            <Link style={{marginRight: '1rem'}} className="btn btn-info"
+                    to={`/course/edit/${id}`}
+                >Edytuj</Link>
+            <Button
+                onClick={() =>customConfirm (()=>deleteCourse())}
+                className="btn btn-danger"
+                >Usuń</Button>
             </div>
             
 

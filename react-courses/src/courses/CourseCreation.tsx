@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { categoriesDTO, citiesDTO, typesDTO } from "../categories/categories.model";
 import { urlCities, urlCourseCategories, urlCourses, urlTypes } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
@@ -10,7 +10,7 @@ import { courseCreationDTO } from "./courses.model";
 
 export default function CourseCreation(){
 
-    const navigate = useNavigate();
+    const history = useHistory();
     const [errors,setErrors] = useState<string[]>([]);
      
     async function create(course: courseCreationDTO)
@@ -24,7 +24,7 @@ export default function CourseCreation(){
                 data:formData,
                 headers: {'Content-Type': 'multipart/form-data'}
             })          
-            navigate(`/courses`);
+            history.push(`/courses`);
         } catch (error :any){
             if(error && error.response){
                 setErrors(error.response.data)

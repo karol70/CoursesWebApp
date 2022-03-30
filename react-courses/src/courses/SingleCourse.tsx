@@ -4,7 +4,7 @@ import { courseDTO } from "./courses.model";
 import css from './Courses.module.css';
 
 export default function SingleCourse(props: courseDTO){
-    const buildLink = () => `/courses/${props.id}`;
+    const buildLink = () => `/course/${props.id}`;
 
     return(
 

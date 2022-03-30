@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { urlCourses } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
@@ -14,7 +14,7 @@ export default function EditCourse (){
     const [course, setCourse] = useState<courseCreationDTO>();
     const [coursePutGet, setCoursePutGet] = useState<courseDTO>();
     const [errors, setErrors] = useState<string[]>([]);
-    const navigate = useNavigate();
+    const history = useHistory();
 
     useEffect(() => {
         axios.get(`${urlCourses}/PutGet/${id}`)
@@ -52,7 +52,7 @@ export default function EditCourse (){
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'}               
             })
-            navigate(`/courses`);
+            history.push(`/courses`);
             
         } catch (error :any){
             if(error && error.response){

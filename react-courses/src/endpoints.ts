@@ -4,3 +4,4 @@ export const urlPrivateLessonsCategories = `${baseURL}/privateLessonsCategories`
 export const urlCities = `${baseURL}/cities`;
 export const urlTypes = `${baseURL}/types`;
 export const urlCourses = `${baseURL}/courses`;
+export const urlAccounts = `${baseURL}/accounts`;
