@@ -21,7 +21,7 @@ export default function EditCourse (){
         .then((response: AxiosResponse<courseDTO>)=>{
             if(response.data.plan == null){response.data.plan =''}
             if(response.data.contactNumber == null){response.data.contactNumber =''}
-            if(response.data.mainPage == null){response.data.mainPage =''}
+            if(response.data.courseHomePage == null){response.data.courseHomePage =''}
             if(response.data.price == null){response.data.price =''}
             const model: courseCreationDTO={
                 title: response.data.name,
@@ -33,7 +33,7 @@ export default function EditCourse (){
                 plan: response.data.plan,
                 contactEmail: response.data.contactEmail,
                 contactTelephoneNumber: response.data.contactNumber,
-                mainPage: response.data.mainPage,
+                mainPage: response.data.courseHomePage,
                 price: response.data.price
             };
         

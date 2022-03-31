@@ -72,6 +72,7 @@ import { urlCities, urlCourseCategories, urlTypes } from "../endpoints";
                  cityId: Yup.string().notOneOf(['0'], "Wybierz miasto") ,                
                  contactEmail: Yup.string().required('To pole jest wymagane').email('Wprowadź prawidłowy adres email'),
                  mainPage: Yup.string().url('Wprowadź prawidłowy link'),
+                 contactTelephoneNumber: Yup.string()
                  
          })}
         >

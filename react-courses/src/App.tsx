@@ -16,8 +16,11 @@ import routes from './route-config';
 import RedirectToMainPage from './utils/RedirectToMainPage';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { GetClaims } from './auth/handleJWT';
+import Authorized from './auth/Authorized';
+import configureInterceptor from './utils/httpInterceptors';
 
 configureValidations();
+configureInterceptor();
 
 
 function App() {
@@ -41,7 +44,7 @@ function App() {
       <Switch>
       {routes.map(route => 
             <Route key={route.path} path={route.path}  exact={route.exact}>
-              {route.isAdmin && !isAdmin() ? <>Nie masz dotępu do tej strony</> : <route.component/> }         
+              {<route.component/> }       
             </Route>)}
       </Switch>
       </div> 

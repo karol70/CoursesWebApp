@@ -17,5 +17,8 @@
         public  City City { get; set; }
        
         public  Type Type { get; set; }
+
+        public double AverageVote { get; set; }
+        public int UserVote { get; set; }
     }
 }

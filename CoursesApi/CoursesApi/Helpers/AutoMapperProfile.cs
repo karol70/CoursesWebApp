@@ -14,7 +14,7 @@ namespace CoursesApi.Helpers
             CreateMap<CourseCreationDTO, Course>()
                .ForMember(x => x.Image, options => options.Ignore())
                .ForMember(x => x.ContactNumber, options => options.MapFrom(dto => dto.ContactTelephoneNumber))
-               .ForMember(x => x.CourseHomePage,options=> options.Equals(""))
+               .ForMember(x => x.CourseHomePage,options=> options.MapFrom(dto => dto.mainPage))
                .ForMember(x => x.Name, options => options.MapFrom(dto => dto.Title))
                .ForMember(x => x.CourseCategoryCourse, options => options.MapFrom(MapCoursesCategories))
                .ForMember(x => x.CourseCity, options => options.MapFrom(MapCoursesCities))
