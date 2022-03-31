@@ -15,7 +15,7 @@ const routes =[
     {path:'/courses', component: Courses},
     {path:'/course/create', component: CourseCreation, exact:true},
     {path:'/course/:id(\\d+)', component: CourseDetails},
-    {path:'/course/edit/:id(\\d+)', component: EditCourse , exact: true, isAdmin: true},
+    {path:'/course/edit/:id(\\d+)', component: EditCourse},
 
     {path:'/register', component: Register},
     {path:'/login', component: Login},

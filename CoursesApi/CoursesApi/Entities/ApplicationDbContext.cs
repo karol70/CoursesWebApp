@@ -63,6 +63,7 @@ namespace CoursesApi.Entities
         public DbSet<Type> Types { get; set; }
         public DbSet<PrivateLesson> PrivateLessons { get; set; }
         public DbSet<PrivateLessonsCategory> PrivateLessonsCategories { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
     }
 

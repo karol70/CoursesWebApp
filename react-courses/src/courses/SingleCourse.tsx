@@ -1,10 +1,38 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios, { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { urlCourses } from "../endpoints";
 import Ratings from "../utils/Ratings";
 import { courseDTO } from "./courses.model";
 import css from './Courses.module.css';
 
 export default function SingleCourse(props: courseDTO){
     const buildLink = () => `/course/${props.id}`;
+    const [course, setCourse] = useState<courseDTO>();
+
+    useEffect(()=>{
+        axios.get(`${urlCourses}/${props.id}`)
+        .then((response: AxiosResponse<courseDTO>) =>{   
+            setCourse(response.data);        
+            })
+            
+    },[props.id])
+
+    function viewRatingStars(){     
+        return (
+            <div>
+                {[0,1,2,3,4].map((_, index) =>
+               <FontAwesomeIcon                
+                    icon="star" key={index} 
+                    className={`fa-lg pointer checked`}
+                /> 
+                )}
+            </div> 
+        )
+    }
+
+    
 
     return(
 
@@ -16,7 +44,7 @@ export default function SingleCourse(props: courseDTO){
                 <p>{props.name}</p>
                 <p>{props.type}</p>  
             </Link>
-            <Ratings maximumValue={5} selectedValue={0} onChange={()=>{}}/>              
+            {viewRatingStars()} ({course?.averageVote})                   
         </div>
     )
 }

@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom"
-import { urlCourses } from "../endpoints";
+import { Link, Route, useHistory, useParams } from "react-router-dom"
+import Swal from "sweetalert2";
+import { urlCourses, urlRatings } from "../endpoints";
 import AlertContext from "../utils/AlertContext";
 import Button from "../utils/Button";
 import customConfirm from "../utils/customConfirm";
@@ -33,6 +34,12 @@ export default function CourseDetails(){
             });
     }
 
+    function handleRate(rate: number){
+        axios.post(urlRatings, {rating: rate, courseId: id}).then(() => {
+            Swal.fire({icon: 'success', title: 'Dodano ocenę'})
+        })
+    }
+
     return(
         course? <div className="container mt-4" style={{display: 'flex'}}>
                 
@@ -44,7 +51,7 @@ export default function CourseDetails(){
             </div>
             
             <div className={css.right}>
-                <Ratings maximumValue={5} selectedValue={0} onChange={()=>{}}/>
+                Dodaj ocenę:<Ratings maximumValue={5} selectedValue={course.userVote} onChange={handleRate}/>({course.averageVote})
 
                 <h5 >Opis:</h5>
                 <p>{course.description}</p>            
@@ -53,16 +60,22 @@ export default function CourseDetails(){
                 <p>{course.plan}</p></div>: null}        
             
                 <h5>Tryb i forma szkolenia:</h5>
-                <p>{course.type.name}</p>       
+                <p>{course.type.name}</p> 
+
+                {course.price? <div><h5>Cena:</h5>
+                <p>{course.price} PLN</p></div> :null}      
             
                 <h5>Email:</h5>
                 <p>{course.contactEmail}</p>
 
                 {course.contactNumber? <div><h5>Telefon:</h5>
-                <p>{course.contactNumber}</p></div> :null}        
+                <p>{course.contactNumber}</p></div> :null} 
+
             
-                {course.mainPage? <div><h5>Więcej na naszej stronie:</h5>
-                <p>{course.mainPage}</p></div> :null}
+                {course.courseHomePage? <div><h5>Więcej na naszej stronie:</h5>
+                <a href={course.courseHomePage} target="_blank">{course.courseHomePage}</a></div> :null}
+
+                
             </div>
             <div>
             <Link style={{marginRight: '1rem'}} className="btn btn-info"

@@ -10,11 +10,11 @@ export interface courseDTO{
     description: string;
     plan:string;
     contactEmail: string;
-    contactNumber?:string;
+    contactNumber:string;
     price:string;
-    mainPage?: string;
-    userVote?: number;
-    averageVote?: number; 
+    courseHomePage?: string;
+    userVote: number;
+    averageVote: number; 
 }
 
 export interface courseCreationDTO{

@@ -2,6 +2,9 @@
 using CoursesApi.DTOs;
 using CoursesApi.Entities;
 using CoursesApi.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,23 +12,30 @@ namespace CoursesApi.Controllers
 {
     [ApiController]
     [Route("api/courses")]
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class CoursesController : ControllerBase
     {
         private readonly ILogger<CoursesController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IFileStorageService _fileStorageService;
+        private readonly UserManager<IdentityUser> _userManager;
         private string container = "courses";
 
-        public CoursesController(ILogger<CoursesController> logger, ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService)
+        public CoursesController(ILogger<CoursesController> logger, 
+            ApplicationDbContext context, IMapper mapper, 
+            IFileStorageService fileStorageService,
+            UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _context = context;
             _mapper = mapper;
             _fileStorageService = fileStorageService;
+            _userManager = userManager;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<CoursesDTO>>> Get()
         {
             var coursesQueryable = _context.Courses.AsQueryable();
@@ -35,6 +45,7 @@ namespace CoursesApi.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<CoursesDTO>> Get(int id)
         {
             var course = await _context.Courses
@@ -47,7 +58,32 @@ namespace CoursesApi.Controllers
                 return NotFound();
             }
 
+            var averageVote = 0.0;
+            var userVote = 0;
+
+            if(await _context.Ratings.AnyAsync(x => x.CourseId == id))
+            {
+                averageVote = await _context.Ratings.Where(x => x.CourseId == id)
+                    .AverageAsync(x => x.Rate);
+
+                if (HttpContext.User.Identity.IsAuthenticated)
+                {
+                    var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+                    var user = await _userManager.FindByEmailAsync(email);
+                    var userId = user.Id;
+
+                    var ratingDb = await _context.Ratings.FirstOrDefaultAsync(x => x.CourseId == id && x.UserId == userId);
+
+                    if(ratingDb != null)
+                    {
+                        userVote = ratingDb.Rate;
+                    }
+                }
+            }
+
             var dto = _mapper.Map<CoursesDTO>(course);
+            dto.AverageVote = averageVote;
+            dto.UserVote = userVote;
             return dto;
         }
 
@@ -59,14 +95,16 @@ namespace CoursesApi.Controllers
             if(courseCreationDTO.Image != null)
             {
                 course.Image = await _fileStorageService.SaveFile(container, courseCreationDTO.Image);
-            } 
+            }
+            course.CourseHomePage = courseCreationDTO.mainPage;
             
-            _context.Add(course);
+            
             await _context.SaveChangesAsync();
             return course.Id;
         }
 
         [HttpGet("filter")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<CoursesDTO>>> Filter([FromQuery] FilterCoursesDTO filterCoursesDTO)
         {
             var coursesQueryable = _context.Courses.AsQueryable();
