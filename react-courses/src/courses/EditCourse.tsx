@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { urlCourses } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
@@ -33,7 +34,7 @@ export default function EditCourse (){
                 plan: response.data.plan,
                 contactEmail: response.data.contactEmail,
                 contactTelephoneNumber: response.data.contactNumber,
-                mainPage: response.data.courseHomePage,
+                courseHomePage: response.data.courseHomePage,
                 price: response.data.price
             };
         
@@ -52,6 +53,7 @@ export default function EditCourse (){
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'}               
             })
+            Swal.fire({icon: 'success', title: 'Kurs został edytowany'})
             history.push(`/courses`);
             
         } catch (error :any){

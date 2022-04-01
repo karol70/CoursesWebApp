@@ -14,11 +14,12 @@ namespace CoursesApi.Helpers
             CreateMap<CourseCreationDTO, Course>()
                .ForMember(x => x.Image, options => options.Ignore())
                .ForMember(x => x.ContactNumber, options => options.MapFrom(dto => dto.ContactTelephoneNumber))
-               .ForMember(x => x.CourseHomePage,options=> options.MapFrom(dto => dto.mainPage))
+               .ForMember(x => x.CourseHomePage, options => options.MapFrom(dto => dto.CourseHomePage))
                .ForMember(x => x.Name, options => options.MapFrom(dto => dto.Title))
                .ForMember(x => x.CourseCategoryCourse, options => options.MapFrom(MapCoursesCategories))
                .ForMember(x => x.CourseCity, options => options.MapFrom(MapCoursesCities))
-               .ForMember(x => x.CourseType, options => options.MapFrom(MapCoursesTypes));
+               .ForMember(x => x.CourseType, options => options.MapFrom(MapCoursesTypes))
+               .ForMember(x => x.UserId, options => options.Ignore()).ReverseMap();
 
             CreateMap<Course, CourseDetailsDTO>()
                 .ForMember(x => x.CategoryName, options => options.MapFrom(dto => dto.CourseCategoryCourse.Course.Name))

@@ -5,3 +5,15 @@
     flex-direction: row;
     align-items: center;
 }
+
+.userbuttons{
+    margin-top: 20px;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+.usercourses{
+    margin-right: 2%;
+}

@@ -32,17 +32,26 @@ namespace CoursesApi.Controllers
             {
                 userCredentials.UserName = userCredentials.Email;
             }
-            var user = new IdentityUser { UserName = userCredentials.UserName, Email = userCredentials.Email };
-            var result = await _userManager.CreateAsync(user, userCredentials.Password);
-
-            if (result.Succeeded)
+            var userExists = await _userManager.FindByEmailAsync(userCredentials.Email);
+            if(userExists == null)
             {
-                return BuildToken(userCredentials);
+                var user = new IdentityUser { UserName = userCredentials.UserName, Email = userCredentials.Email };
+                var result = await _userManager.CreateAsync(user, userCredentials.Password);
+                if (result.Succeeded)
+                {
+                    return BuildToken(userCredentials);
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
+                }
             }
             else
             {
-                return BadRequest(result.Errors);
+                return BadRequest("Wprowadzono niepoprawne dane");
             }
+
+            
         }
 
         [HttpPost("login")]

@@ -38,9 +38,30 @@ namespace CoursesApi.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<List<CoursesDTO>>> Get()
         {
-            var coursesQueryable = _context.Courses.AsQueryable();
+            
 
+            var coursesQueryable = _context.Courses.AsQueryable();
             var courses = await coursesQueryable.ToListAsync();
+            if(courses == null)
+            {
+                return NotFound();
+            }
+            return Ok(courses);
+        }
+
+        [HttpGet("userCourses")]
+        public async Task<ActionResult<List<CoursesDTO>>> GetUserCourses()
+        {
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var userId = user.Id;
+
+            var coursesQueryable = _context.Courses.AsQueryable().Where(x => x.UserId == userId);
+            var courses = await coursesQueryable.ToListAsync();
+            if (courses == null)
+            {
+                return NotFound();
+            }
             return Ok(courses);
         }
 
@@ -96,9 +117,12 @@ namespace CoursesApi.Controllers
             {
                 course.Image = await _fileStorageService.SaveFile(container, courseCreationDTO.Image);
             }
-            course.CourseHomePage = courseCreationDTO.mainPage;
-            
-            
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var userId = user.Id;
+            course.UserId = userId;
+
+            _context.Add(course);
             await _context.SaveChangesAsync();
             return course.Id;
         }
