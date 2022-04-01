@@ -10,7 +10,7 @@ export interface courseDTO{
     description: string;
     plan:string;
     contactEmail: string;
-    contactNumber:string;
+    contactNumber?:string;
     price:string;
     courseHomePage?: string;
     userVote: number;
@@ -28,7 +28,7 @@ export interface courseCreationDTO{
     plan:string;
     contactEmail: string;
     contactTelephoneNumber?: string;
-    mainPage?: string;
+    courseHomePage?: string;
     price: string;
 }
 
@@ -40,9 +40,9 @@ export interface courseDetailsDTO{
     image: string;
     description?: string;
     plan?:string;
-    contactEmail?: string;
+    contactEmail: string;
     contactNumber?:string;
     price?:string;
-    mainPage?: string;
+    courseHomePage?: string;
 }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoursesApi.Entities
 {
@@ -21,6 +22,9 @@ namespace CoursesApi.Entities
         public CourseCategoriesCourses CourseCategoryCourse { get; set;}
         public CoursesCities CourseCity { get; set; }
         public CoursesTypes CourseType { get; set; }
- 
+
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
+
     }
 }

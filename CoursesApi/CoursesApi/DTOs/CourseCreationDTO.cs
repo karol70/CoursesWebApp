@@ -13,7 +13,7 @@ namespace CoursesApi.DTOs
     public string? Plan { get; set; }
     public string ContactEmail { get; set; }
     public string? ContactTelephoneNumber { get; set; }
-    public string? mainPage { get; set; }
+    public string? CourseHomePage { get; set; }
     
     public string? Price { get; set; }
 

@@ -15,6 +15,6 @@
         public string ContactEmail { get; set; }
         public string ContactNumber { get; set; }
         public string Price { get; set; }
-        public string MainPage { get; set; }
+        public string CourseHomePage { get; set; }
     }
 }

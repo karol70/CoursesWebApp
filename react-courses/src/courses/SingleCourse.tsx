@@ -35,7 +35,6 @@ export default function SingleCourse(props: courseDTO){
     
 
     return(
-
         <div className={css.div}>
             <Link to={buildLink()}>
                 {props.image ? 

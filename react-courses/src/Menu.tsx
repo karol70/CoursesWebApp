@@ -34,13 +34,22 @@ export default function Menu(){
                             </NavLink>
                         </li>
                         <Authorized
-                        authorized={<>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/course/create" >
-                                Utwórz kurs
-                            </NavLink>
-                        </li>
-                        </>}
+                            authorized={<>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/course/create" >
+                                    Utwórz kurs
+                                </NavLink>
+                            </li>
+                            </>}
+                        />
+                        <Authorized
+                            authorized={<>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/user/courses" >
+                                    Twoje kursy
+                                </NavLink>
+                            </li>
+                            </>}
                         />
                         
                                                     
@@ -53,7 +62,7 @@ export default function Menu(){
                                         logout();
                                         update([]);
                                     }}
-                                    >Logout</Button> 
+                                    ><Link to="/">Wyloguj się</Link></Button> 
                         </>}
                         notAuthorized={<>
                         <div className="d-flex">                         

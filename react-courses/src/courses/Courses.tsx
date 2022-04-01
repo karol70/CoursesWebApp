@@ -35,7 +35,7 @@ export default function Curses(){
             })  
         },[]);
 
-     useEffect(() => {
+    useEffect(() => {
         axios.get(urlCities)
             .then((response: AxiosResponse<citiesDTO[]>) =>{
             setCities(response.data);
@@ -45,9 +45,10 @@ export default function Curses(){
         useEffect(() => {
             axios.get(urlCourses)
                 .then((response: AxiosResponse<courseDTO[]>) =>{
-                setCourses(response.data);
+                setCourses (response.data);
                 })  
-            },[]);
+            },[]);   
+    
 
     const initialValues: filterCoursesForm = {
         categoryId: 0,
@@ -183,3 +184,4 @@ interface filterCoursesForm{
     typeId: number;
     cityId: number;
 }
+

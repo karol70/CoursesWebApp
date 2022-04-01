@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useHistory} from "react-router-dom";
+import Swal from "sweetalert2";
 import { categoriesDTO, citiesDTO, typesDTO } from "../categories/categories.model";
 import { urlCities, urlCourseCategories, urlCourses, urlTypes } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
@@ -12,7 +13,7 @@ export default function CourseCreation(){
 
     const history = useHistory();
     const [errors,setErrors] = useState<string[]>([]);
-     
+       
     async function create(course: courseCreationDTO)
     {   
         
@@ -23,7 +24,8 @@ export default function CourseCreation(){
                 url:urlCourses,
                 data:formData,
                 headers: {'Content-Type': 'multipart/form-data'}
-            })          
+            })
+            Swal.fire({icon: 'success', title: 'Kurs został dodany'})          
             history.push(`/courses`);
         } catch (error :any){
             if(error && error.response){
@@ -31,13 +33,14 @@ export default function CourseCreation(){
             }
         }
     }
+    
 
     return(
         <div className="container mt-3">
             <DisplayErrors errors={errors}/>
             <CourseForm onSubmit={async values => await create(values)}
             model={{cityId:0, typeId:0, categoryId:0 ,title: '', description: '', plan:'', contactEmail:'', contactTelephoneNumber:''
-            , mainPage:'',price:""}}           
+            , courseHomePage:'',price:""}}           
             />
         </div>
     )

@@ -8,6 +8,7 @@ import CourseDetails from "./courses/CourseDetails"
 import Courses from "./courses/Courses"
 import EditCourse from "./courses/EditCourse"
 import MainPage from "./courses/MainPage"
+import UserCourses from "./courses/UserCourses"
 import RedirectToMainPage from "./utils/RedirectToMainPage"
 
 const routes =[
@@ -16,6 +17,8 @@ const routes =[
     {path:'/course/create', component: CourseCreation, exact:true},
     {path:'/course/:id(\\d+)', component: CourseDetails},
     {path:'/course/edit/:id(\\d+)', component: EditCourse},
+
+    {path:'/user/courses/', component: UserCourses},
 
     {path:'/register', component: Register},
     {path:'/login', component: Login},

@@ -23,8 +23,8 @@ export function convertCourseToFormData(course: courseCreationDTO): FormData{
     if(course.contactTelephoneNumber){
         formData.append('contactTelephoneNumber', JSON.stringify(course.contactTelephoneNumber));
     }
-    if(course.mainPage){
-        formData.append('mainPage', course.mainPage);
+    if(course.courseHomePage){
+        formData.append('mainPage', course.courseHomePage);
     }
  
     formData.append('categoryId', JSON.stringify(course.categoryId));
