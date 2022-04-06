@@ -73,7 +73,8 @@ namespace CoursesApi.Controllers
         {
             var claims = new List<Claim>()
             {
-                new Claim("email", userCredentials.Email)
+                new Claim("email", userCredentials.Email),
+                new Claim("userName", userCredentials.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["keyjwt"]));

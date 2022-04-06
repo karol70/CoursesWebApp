@@ -29,7 +29,7 @@ export default function Register(){
         <>
         <h3>Rejestracja</h3>
         <DisplayErrors errors={errors}/>
-        <AuthForm isRegister model={{email:'', password: ''}} onSubmit={async values=> await register(values)}/>
+        <AuthForm isRegister model={{email:'', password: '', userName:''}} onSubmit={async values=> await register(values)}/>
         </>
     )
 }

@@ -32,8 +32,6 @@ export default function SingleCourse(props: courseDTO){
         )
     }
 
-    
-
     return(
         <div className={css.div}>
             <Link to={buildLink()}>
@@ -42,8 +40,8 @@ export default function SingleCourse(props: courseDTO){
                 : <img alt="img" src ="https://the1thing.com/wp-content/uploads/2015/01/the_one_thing_improve_skills.jpg"/>}
                 <p>{props.name}</p>
                 <p>{props.type}</p>  
-            </Link>
-            {viewRatingStars()} ({course?.averageVote})                   
+            </Link>           
+            {viewRatingStars()} Średnia ocen: {course?.averageVote}                   
         </div>
     )
 }

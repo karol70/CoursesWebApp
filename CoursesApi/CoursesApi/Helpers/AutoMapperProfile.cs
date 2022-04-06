@@ -40,6 +40,8 @@ namespace CoursesApi.Helpers
 
 
             CreateMap<TypeCreationDTO, Entities.Type>().ReverseMap();
+            CreateMap<CourseComments, CourseCommentDTO>()
+                .ForMember(x => x.UserName, options => options.Ignore()).ReverseMap();
 
         }
 

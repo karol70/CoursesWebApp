@@ -10,8 +10,8 @@ export default function Menu(){
 
     const {update,claims} = useContext(AuthenticationContext);
 
-    function getUserEmail():string{
-        return claims.filter(x=>x.name ==='email')[0]?.value;
+    function getUserName():string{
+        return claims.filter(x=>x.name ==='userName')[0]?.value;
     }
 
     return(
@@ -56,7 +56,7 @@ export default function Menu(){
                     </ul>
                     <Authorized
                     authorized={<>
-                        <span className="nav-link">Cześć {getUserEmail()}</span>
+                        <span className="nav-link">Cześć {getUserName()}</span>
                                      <Button className="nav-link btn btn-link"
                                     onClick={() => {
                                         logout();

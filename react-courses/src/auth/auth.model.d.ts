@@ -8,6 +8,10 @@ export interface userCredentials{
     userName?: string;
     password: string;
 }
+export interface userCredentialsLogin{
+    email:string;
+    password: string;
+}
 export interface authenticationResponse{
     token: string;
     expiration: Date;

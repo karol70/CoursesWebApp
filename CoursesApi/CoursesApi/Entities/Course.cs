@@ -23,8 +23,7 @@ namespace CoursesApi.Entities
         public CoursesCities CourseCity { get; set; }
         public CoursesTypes CourseType { get; set; }
 
-        public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public string UserId { get; set; }    
 
     }
 }

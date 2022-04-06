@@ -20,6 +20,5 @@ interface textFieldProps{
 }
 
 TextField.defaultProps = {
-    type: 'text',
-    
+    type: 'text',   
 }

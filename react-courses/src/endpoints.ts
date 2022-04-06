@@ -6,3 +6,4 @@ export const urlTypes = `${baseURL}/types`;
 export const urlCourses = `${baseURL}/courses`;
 export const urlAccounts = `${baseURL}/accounts`;
 export const urlRatings = `${baseURL}/ratings`;
+export const urlCourseComments = `${baseURL}/courseComments`;
