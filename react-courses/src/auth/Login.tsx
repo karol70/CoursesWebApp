@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { urlAccounts } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
-import { authenticationResponse, userCredentials } from "./auth.model";
+import { authenticationResponse, claim, userCredentials, userCredentialsLogin } from "./auth.model";
 import AuthenticationContext from "./AuthenticationContext";
 import AuthForm from "./AuthForm";
 import { GetClaims, saveToken } from "./handleJWT";
@@ -14,7 +14,7 @@ export default function Login(){
     const {update} = useContext(AuthenticationContext);
     const history = useHistory();
 
-    async function login(credentials: userCredentials){
+    async function login(credentials: userCredentialsLogin){
         try{
             setErrors([]);
             const response = await axios.post<authenticationResponse>(`${urlAccounts}/login`, credentials);

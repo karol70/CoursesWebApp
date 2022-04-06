@@ -39,7 +39,6 @@ namespace CoursesApi.Controllers
         public async Task<ActionResult<List<CoursesDTO>>> Get()
         {
             
-
             var coursesQueryable = _context.Courses.AsQueryable();
             var courses = await coursesQueryable.ToListAsync();
             if(courses == null)

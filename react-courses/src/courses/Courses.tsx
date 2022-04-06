@@ -24,8 +24,7 @@ export default function Curses(){
         axios.get(urlCourseCategories)
           .then((response: AxiosResponse<categoriesDTO[]>) =>{
             setCategories(response.data);
-          })
-            
+          })           
         },[]);
 
     useEffect(() => {

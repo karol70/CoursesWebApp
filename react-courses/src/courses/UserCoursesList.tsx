@@ -28,9 +28,9 @@ export default function UserCoursesList(props: userCoursesListProps){
         
         <div className={css.div}>       
             {props.courses?.map(  course => 
-            <div className={css.usercourses}>
+            <div className={css.usercourses} key={course.id}>
             
-                <SingleCourse {... course} key={course.id}/>
+                <SingleCourse {... course}/>
                 <div className={css.userbuttons}>
                 <Link style={{marginRight: '1rem'}} className="btn btn-info"
                         to={`/course/edit/${course.id}`}

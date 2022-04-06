@@ -1,5 +1,5 @@
 import { Form, Formik, FormikHelpers } from "formik";
-import { userCredentials } from "./auth.model";
+import { userCredentials, userCredentialsLogin } from "./auth.model";
 import * as Yup from 'yup';
 import TextField from "../forms/TextField";
 import Button from "../utils/Button";
@@ -12,6 +12,7 @@ export default function AuthForm(props: authFormProps){
         onSubmit = {props.onSubmit}
         validationSchema={Yup.object({
             email: Yup.string().required('To pole jest wymagane').email('Wprowadź prawidłowy email'),
+            userName: Yup.string().required('To pole jest wymagane'),
             password: Yup.string().required('To pole jest wymagane')
         })}
         >
