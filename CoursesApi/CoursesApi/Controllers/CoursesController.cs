@@ -162,8 +162,14 @@ namespace CoursesApi.Controllers
         public async Task<ActionResult<CoursesDTO>> PutGet(int id)
         {
             var courseResult = await Get(id);
-            if(courseResult.Result is NotFoundResult) { return NotFound(); }
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var userId = user.Id;
 
+            if (courseResult.Result is NotFoundResult || courseResult.Value.UserId != userId) { return NotFound(); }
+
+           
+ 
             var response = courseResult.Value;
             return response;
         }
@@ -194,8 +200,13 @@ namespace CoursesApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
+            var courseResult = await Get(id);
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var userId = user.Id;
+
             var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
-            if (course == null)
+            if (course == null || courseResult.Value.UserId != userId)
             {
                 return NotFound();
             }

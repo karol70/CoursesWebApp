@@ -2,17 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { urlCourses } from "../endpoints";
-import Ratings from "../utils/Ratings";
-import { courseDTO } from "./courses.model";
-import css from './Courses.module.css';
+import { courseDTO } from "../courses/courses.model";
+import { urlPrivateLessons } from "../endpoints";
+import css from '../courses/Courses.module.css';
 
-export default function SingleCourse(props: courseDTO){
-    const buildLink = () => `/course/${props.id}`;
+export default function SinglePrivateLesson(props: courseDTO){
+    const buildLink = () => `/privateLesson/${props.id}`;
     const [course, setCourse] = useState<courseDTO>();
 
     useEffect(()=>{
-        axios.get(`${urlCourses}/${props.id}`)
+        axios.get(`${urlPrivateLessons}/${props.id}`)
         .then((response: AxiosResponse<courseDTO>) =>{   
             setCourse(response.data);        
             })
@@ -37,7 +36,7 @@ export default function SingleCourse(props: courseDTO){
             <Link to={buildLink()}>
                 {props.image ? 
                 <img alt="img" src={props.image}/> 
-                : <img alt="img" src ="https://cdn-icons-png.flaticon.com/512/1478/1478950.png"/>}
+                : <img alt="img" src ="https://cdn-icons-png.flaticon.com/512/1846/1846908.png"/>}
                 <p>{props.name}</p>
                 <p>{props.type}</p>  
             </Link>           

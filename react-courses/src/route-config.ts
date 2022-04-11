@@ -9,6 +9,9 @@ import Courses from "./courses/Courses"
 import EditCourse from "./courses/EditCourse"
 import MainPage from "./courses/MainPage"
 import UserCourses from "./courses/UserCourses"
+import PrivateLessons from "./privateLessons/PrivateLessons"
+import PrivateLessonCreation from "./privateLessons/PrivateLessonsCreation"
+import UserPrivateLessons from "./privateLessons/UserPrivateLessons"
 import RedirectToMainPage from "./utils/RedirectToMainPage"
 
 const routes =[
@@ -18,7 +21,11 @@ const routes =[
     {path:'/course/:id(\\d+)', component: CourseDetails},
     {path:'/course/edit/:id(\\d+)', component: EditCourse},
 
+    {path:'/privateLessons', component: PrivateLessons},
+    {path:'/privateLesson/create', component: PrivateLessonCreation, exact:true},
+
     {path:'/user/courses/', component: UserCourses},
+    {path:'/user/privateLessons/', component: UserPrivateLessons},
 
     {path:'/register', component: Register},
     {path:'/login', component: Login},

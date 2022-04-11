@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Menu from './Menu';
-import { BrowserRouter,Route, Switch, withRouter } from 'react-router-dom';
-import MainPage from './courses/MainPage';
-import Courses from '../src/courses/Courses';
-import CourseDetails from './courses/CourseDetails';
-import CourseForm from './courses/CourseForm';
-import CourseCreation from './courses/CourseCreation';
+import { BrowserRouter,Route, Switch, } from 'react-router-dom';
 import configureValidations from './Validations';
-import EditCourse from './courses/EditCourse';
 import { claim } from './auth/auth.model';
 import AuthenticationContext from './auth/AuthenticationContext';
 import routes from './route-config';
-import RedirectToMainPage from './utils/RedirectToMainPage';
-import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { GetClaims } from './auth/handleJWT';
-import Authorized from './auth/Authorized';
 import configureInterceptor from './utils/httpInterceptors';
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 configureValidations();
 configureInterceptor();

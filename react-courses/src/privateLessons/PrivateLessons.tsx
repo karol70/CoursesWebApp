@@ -1,18 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
-import { request } from "http";
 import { useEffect, useState } from "react";
-import {  useLocation, useHistory } from "react-router-dom";
-import { forEachChild } from "typescript";
+import { useHistory, useLocation } from "react-router-dom";
 import { categoriesDTO, citiesDTO, typesDTO } from "../categories/categories.model";
-import { urlCities, urlCourseCategories, urlCourses, urlTypes } from "../endpoints";
+import { courseDTO } from "../courses/courses.model";
+import { urlCities, urlCourses, urlPrivateLessons, urlPrivateLessonsCategories, urlTypes } from "../endpoints";
 import Button from "../utils/Button";
-import { courseDTO } from "./courses.model";
-import CoursesList from "./CoursesList";
+import PrivateLessonsList from "./PrivateLessonsList";
 
-export default function Curses(){
-
-    const [courses, setCourses] = useState<courseDTO[]>([]);
+export default function PrivateLessons(){
+    const [privateLessons, setPrivateLessons] = useState<courseDTO[]>([]);
     const query = new URLSearchParams(useLocation().search);
     const history = useHistory();
 
@@ -21,7 +18,7 @@ export default function Curses(){
     const [cities,setCities] = useState<citiesDTO[]>([]);
 
     useEffect(() => {
-        axios.get(urlCourseCategories)
+        axios.get(urlPrivateLessonsCategories)
           .then((response: AxiosResponse<categoriesDTO[]>) =>{
             setCategories(response.data);
           })           
@@ -41,15 +38,15 @@ export default function Curses(){
             })  
         },[]);
 
-        useEffect(() => {
-            axios.get(urlCourses)
+    useEffect(() => {
+            axios.get(urlPrivateLessons)
                 .then((response: AxiosResponse<courseDTO[]>) =>{
-                setCourses (response.data);
+                setPrivateLessons (response.data);
                 })  
             },[]);   
     
 
-    const initialValues: filterCoursesForm = {
+    const initialValues: filterPrivateLessonsForm = {
         categoryId: 0,
         title: '',
         typeId: 0,
@@ -79,7 +76,7 @@ export default function Curses(){
 
     }, [])
 
-    function modifyURL(values: filterCoursesForm){
+    function modifyURL(values: filterPrivateLessonsForm){
         const queryStrings: string[] = [];
 
         if (values.title){
@@ -98,15 +95,15 @@ export default function Curses(){
             queryStrings.push(`cityId=${values.cityId}`);
         }
     
-        history.push(`/courses?${queryStrings.join('&')}`);
+        history.push(`/privateLessons?${queryStrings.join('&')}`);
         
     }
 
-    function searchCourses(values: filterCoursesForm){
+    function searchCourses(values: filterPrivateLessonsForm){
         modifyURL(values);
-        axios.get(`${urlCourses}/filter`, {params: values})
+        axios.get(`${urlPrivateLessons}/filter`, {params: values})
         .then((response: AxiosResponse<courseDTO[]>)=>{
-            setCourses(response.data);
+            setPrivateLessons(response.data);
         })
     }
 
@@ -164,23 +161,22 @@ export default function Curses(){
                                             searchCourses(initialValues);                                     
                                         }}
                                     >Wyczyść</Button>
-                            </div>
+                                </div>
                         </div>
                     </Form>               
             ) }
         </Formik>
     
-        <h3 className="mt-3">Kursy i Szkolenia</h3>
-        <CoursesList courses={courses}/>
+        <h3 className="mt-3">Korepetycje</h3>
+        <PrivateLessonsList privateLessons={privateLessons}/>
     </div>
   
     )
 }
 
-interface filterCoursesForm{
+interface filterPrivateLessonsForm{
     categoryId: number;
     title?: string;
     typeId: number;
     cityId: number;
 }
-

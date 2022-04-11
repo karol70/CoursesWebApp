@@ -2,23 +2,22 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { urlCourses } from "../endpoints";
+import CourseForm from "../courses/CourseForm";
+import { courseCreationDTO, courseDTO } from "../courses/courses.model";
+import { urlPrivateLessons } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
 import Loading from "../utils/Loading";
-import CourseForm from "./CourseForm";
-import { courseCreationDTO, courseDTO } from "./courses.model";
 
-export default function EditCourse (){
-
+export default function EditPrivateLesson(){
     const {id}: any = useParams();
-    const [course, setCourse] = useState<courseCreationDTO>();
-    const [coursePutGet, setCoursePutGet] = useState<courseDTO>();
+    const [privateLesson, setPrivateLesson] = useState<courseCreationDTO>();
+    const [privateLessonPutGet, setPrivateLessonPutGet] = useState<courseDTO>();
     const [errors, setErrors] = useState<string[]>([]);
     const history = useHistory();
 
     useEffect(() => {
-        axios.get(`${urlCourses}/PutGet/${id}`)
+        axios.get(`${urlPrivateLessons}/PutGet/${id}`)
         .then((response: AxiosResponse<courseDTO>)=>{
             if(response.data.plan == null){response.data.plan =''}
             if(response.data.contactNumber == null){response.data.contactNumber =''}
@@ -36,25 +35,24 @@ export default function EditCourse (){
                 contactTelephoneNumber: response.data.contactNumber,
                 courseHomePage: response.data.courseHomePage,
                 price: response.data.price
-            };
-        
-            setCourse(model);
-            setCoursePutGet(response.data);
+            };       
+            setPrivateLesson(model);
+            setPrivateLessonPutGet(response.data);
         })
     }, [id])
 
 
-    async function edit(courseToEdit: courseCreationDTO){
+    async function edit(privateLessonsToEdit: courseCreationDTO){
         try{
-            const formData = convertCourseToFormData(courseToEdit);
+            const formData = convertCourseToFormData(privateLessonsToEdit);
             await axios({
                 method: 'put',
-                url: `${urlCourses}/${id}`,
+                url: `${urlPrivateLessons}/${id}`,
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'}               
             })
-            Swal.fire({icon: 'success', title: 'Kurs został edytowany'})
-            history.push(`/courses`);
+            Swal.fire({icon: 'success', title: 'Korepetycja została edytowana'})
+            history.push(`/privateLessons`);
             
         } catch (error :any){
             if(error && error.response){
@@ -65,10 +63,8 @@ export default function EditCourse (){
     return( 
     <div className="container mt-3">
             <DisplayErrors errors={errors}/>           
-            {course && coursePutGet? <CourseForm title="Edytuj kurs" onSubmit={async values => await edit(values)}model={course}
+            {privateLesson && privateLessonPutGet? <CourseForm title="Edytuj korepetycję" onSubmit={async values => await edit(values)}model={privateLesson}
             />: <Loading/>}
     </div>
     )
 }
-
-

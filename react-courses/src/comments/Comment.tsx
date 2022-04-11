@@ -11,7 +11,7 @@ export default function Comment(props: commentDTO){
         </div>
         <div className={css.details} style={{display: 'row'}}>
             <div className={css.userInfo}>
-                <p>{props.userName} | {formatDate(props.date).toString()}</p>
+                {props.userName}   |   {formatDate(props.date).toString()}
             </div>
             <div>
                 {props.content}

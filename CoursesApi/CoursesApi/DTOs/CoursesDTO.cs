@@ -20,5 +20,7 @@
 
         public double AverageVote { get; set; }
         public int UserVote { get; set; }
+
+        public string UserId { get; set; }
     }
 }

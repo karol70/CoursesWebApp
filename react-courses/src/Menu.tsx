@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import Authorized from "./auth/Authorized";
@@ -14,14 +14,21 @@ export default function Menu(){
         return claims.filter(x=>x.name ==='userName')[0]?.value;
     }
 
+        const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+      
+        const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">Gain Skills</NavLink>
-                <div className="collapse navbar-collapse"
-                    style={{display: 'flex', justifyContent: 'space-between'}}
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navOptions" aria-controls="navOptions" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}>
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navOptions"
+                    
                 >
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/courses">
                                 Kursy i szkolenia
@@ -45,8 +52,26 @@ export default function Menu(){
                         <Authorized
                             authorized={<>
                             <li className="nav-item">
+                                <NavLink className="nav-link" to="/privateLesson/create" >
+                                    Utwórz korepetycje
+                                </NavLink>
+                            </li>
+                            </>}
+                        />
+                        <Authorized
+                            authorized={<>
+                            <li className="nav-item">
                                 <NavLink className="nav-link" to="/user/courses" >
                                     Twoje kursy
+                                </NavLink>
+                            </li>
+                            </>}
+                        />
+                        <Authorized
+                            authorized={<>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/user/privateLessons" >
+                                    Twoje korepetycje
                                 </NavLink>
                             </li>
                             </>}
@@ -56,13 +81,13 @@ export default function Menu(){
                     </ul>
                     <Authorized
                     authorized={<>
-                        <span className="nav-link">Cześć {getUserName()}</span>
+                        <span className="nav-link" style={{color:"green"}}>Witaj {getUserName()}</span>
                                      <Button className="nav-link btn btn-link"
                                     onClick={() => {
                                         logout();
                                         update([]);
                                     }}
-                                    ><Link to="/">Wyloguj się</Link></Button> 
+                                    ><Link style={{textDecoration:'none'}} to="/">Wyloguj się</Link></Button> 
                         </>}
                         notAuthorized={<>
                         <div className="d-flex">                         
