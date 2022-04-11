@@ -57,15 +57,20 @@ namespace CoursesApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticationResponse>> Login([FromBody] UserCredentials userCredentials)
         {
-            var result = await _signInManager.PasswordSignInAsync(userCredentials.Email, userCredentials.Password, isPersistent: false,
+            var user = await _userManager.FindByEmailAsync(userCredentials.Email);
+            var userName = user.UserName;
+            userCredentials.UserName = userName;
+
+            var result = await _signInManager.PasswordSignInAsync(userCredentials.UserName, userCredentials.Password, isPersistent: false,
                 lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
                 return BuildToken(userCredentials);
-            } else
+            } 
+            else
             {
-                return BadRequest("Nieprawidłowe dane");
+                return BadRequest("");
             }
         }
 

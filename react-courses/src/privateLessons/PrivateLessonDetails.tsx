@@ -1,31 +1,24 @@
 import axios, { AxiosResponse } from "axios";
+import { Form, Formik } from "formik";
 import { useContext, useEffect, useState } from "react";
-import { Link, Route, useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import Authorized from "../auth/Authorized";
-import { urlCourseComments, urlCourses, urlRatings } from "../endpoints";
-import AlertContext from "../utils/AlertContext";
-import Button from "../utils/Button";
+import AuthenticationContext from "../auth/AuthenticationContext";
+import { commentDTO } from "../comments/comment.model";
+import CommentsList from "../comments/CommentsList";
+import { courseDTO } from "../courses/courses.model";
+import { urlPrivateLessons, urlPrivateLessonsComments, urlRatings } from "../endpoints";
 import Loading from "../utils/Loading";
 import Ratings from "../utils/Ratings";
-import { courseDetailsDTO, courseDTO } from "./courses.model";
 import css from './CoursesDetails.module.css';
-import Comment from '../comments/Comment';
-import { Form, Formik } from "formik";
-import TextField from "../forms/TextField";
-import CommentField from "../forms/CommentField";
-import CommentsList from "../comments/CommentsList";
-import { commentCreationDTO, commentDTO } from "../comments/comment.model";
-import DisplayErrors from "../utils/DisplayErrors";
 import * as Yup from 'yup';
+import CommentField from "../forms/CommentField";
+import Button from "../utils/Button";
+import DisplayErrors from "../utils/DisplayErrors";
 
-import AuthenticationContext from "../auth/AuthenticationContext";
-
-
-export default function CourseDetails(){
-
+export default function PrivateLessonDetails(){
     const{id}:any = useParams();
-    const [course, setCourse] = useState<courseDTO>();
+    const [privateLesson, setPrivateLesson] = useState<courseDTO>();
     const history = useHistory();
     const [errors,setErrors] =useState<string[]>([]);
     const {claims} = useContext(AuthenticationContext);
@@ -38,7 +31,7 @@ export default function CourseDetails(){
     async function createComment(content: string)
     {   
         try{
-            await axios.post(urlCourseComments,{courseId: id, date: new Date(), content: content, userName:getUserName()}).then(()=> {
+            await axios.post(urlPrivateLessonsComments,{courseId: id, date: new Date(), content: content, userName:getUserName()}).then(()=> {
                 Swal.fire({icon: 'success', title: 'Komentarz został dodany'}).then(function(){window.location.reload()});
                 history.push(`/course/${id}`); 
             })      
@@ -50,15 +43,15 @@ export default function CourseDetails(){
     }
 
     useEffect(()=>{
-        axios.get(`${urlCourses}/${id}`)
+        axios.get(`${urlPrivateLessons}/${id}`)
         .then((response: AxiosResponse<courseDTO>) =>{   
-            setCourse(response.data);        
+            setPrivateLesson(response.data);        
             })
             
     },[id])
 
     useEffect(()=>{
-        axios.get(`${urlCourseComments}/${id}`)
+        axios.get(`${urlPrivateLessonsComments}/${id}`)
         .then((response: AxiosResponse<commentDTO[]>) =>{   
             setComments(response.data);        
             })
@@ -75,44 +68,44 @@ export default function CourseDetails(){
 
     return(
         <>
-        {course? <div className="container mt-4" style={{display: 'flex'}}>
+        {privateLesson? <div className="container mt-4" style={{display: 'flex'}}>
                 
             <div className={css.left}> 
             
-            <h3>{course.name}</h3>
-                {course.image? <img alt="img" src={course.image}/>
-                : <img alt="img" src ="https://cdn-icons-png.flaticon.com/512/1478/1478950.png"/>}
-               <div> Dodaj ocenę:<Ratings maximumValue={5} selectedValue={course.userVote} onChange={handleRate}/>({course.averageVote})</div>
+            <h3>{privateLesson.name}</h3>
+                {privateLesson.image? <img alt="img" src={privateLesson.image}/>
+                : <img alt="img" src ="https://the1thing.com/wp-content/uploads/2015/01/the_one_thing_improve_skills.jpg"/>}
+               <div> Dodaj ocenę:<Ratings maximumValue={5} selectedValue={privateLesson.userVote} onChange={handleRate}/>({privateLesson.averageVote})</div>
             </div>
             
             <div className={css.right}>               
 
                 <h4 >Opis:</h4>
-                <p>{course.description}</p>            
+                <p>{privateLesson.description}</p>            
             
-                {course.plan ?<div><h4>Harmonogram:</h4>
-                <p>{course.plan}</p></div>: null}        
+                {privateLesson.plan ?<div><h4>Harmonogram:</h4>
+                <p>{privateLesson.plan}</p></div>: null}        
             
                 <h4>Tryb i forma szkolenia:</h4>
-                <p>{course.type.name}</p> 
+                <p>{privateLesson.type.name}</p> 
 
-                {course.price? <div><h4>Cena:</h4>
-                <p>{course.price} PLN</p></div> :null}      
+                {privateLesson.price? <div><h4>Cena:</h4>
+                <p>{privateLesson.price} PLN</p></div> :null}      
             
                 <h4>Email:</h4>
-                <p>{course.contactEmail}</p>
+                <p>{privateLesson.contactEmail}</p>
 
-                {course.contactNumber? <div><h4>Telefon:</h4>
-                <p>{course.contactNumber}</p></div> :null} 
+                {privateLesson.contactNumber? <div><h4>Telefon:</h4>
+                <p>{privateLesson.contactNumber}</p></div> :null} 
 
             
-                {course.courseHomePage? <div><h4>Więcej na naszej stronie:</h4>
-                <a href={course.courseHomePage} target="_blank">{course.courseHomePage}</a></div> :null}
+                {privateLesson.courseHomePage? <div><h4>Więcej na naszej stronie:</h4>
+                <a href={privateLesson.courseHomePage} target="_blank">{privateLesson.courseHomePage}</a></div> :null}
 
             </div>
             
         </div> : <Loading/>}
-        {course? <div className="container mt-4" style={{display: 'flex'}}>
+        {privateLesson? <div className="container mt-4" style={{display: 'flex'}}>
             {comments? <div className={css.leftcomment}>
                 <CommentsList comments={comments}/> 
             </div> : <p>Brak komentarzy</p>}

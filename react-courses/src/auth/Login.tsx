@@ -14,13 +14,13 @@ export default function Login(){
     const {update} = useContext(AuthenticationContext);
     const history = useHistory();
 
-    async function login(credentials: userCredentialsLogin){
+    async function login(credentials: userCredentials){
         try{
             setErrors([]);
             const response = await axios.post<authenticationResponse>(`${urlAccounts}/login`, credentials);
             saveToken(response.data);
             update(GetClaims());
-            history.push('/')
+            history.push('/');
         } catch(error){
             setErrors(error.response.data)
         }

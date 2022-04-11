@@ -1,16 +1,14 @@
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
-import { useHistory} from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
-import { categoriesDTO, citiesDTO, typesDTO } from "../categories/categories.model";
-import { urlCities, urlCourseCategories, urlCourses, urlTypes } from "../endpoints";
+import CourseForm from "../courses/CourseForm";
+import { courseCreationDTO } from "../courses/courses.model";
+import { urlPrivateLessons } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
-import CourseForm from "./CourseForm";
-import { courseCreationDTO } from "./courses.model";
 
-export default function CourseCreation(){
-
+export default function PrivateLessonCreation(){
     const history = useHistory();
     const [errors,setErrors] = useState<string[]>([]);
        
@@ -21,7 +19,7 @@ export default function CourseCreation(){
             const formData = convertCourseToFormData(course);
             const response = await axios({
                 method:'post',
-                url:urlCourses,
+                url:urlPrivateLessons,
                 data:formData,
                 headers: {'Content-Type': 'multipart/form-data'}
             })
@@ -38,7 +36,7 @@ export default function CourseCreation(){
     return(
         <div className="container mt-3">
             <DisplayErrors errors={errors}/>
-            <CourseForm title="Utwórz kurs" onSubmit={async values => await create(values)}
+            <CourseForm title="Utwórz korepetycje" onSubmit={async values => await create(values)}
             model={{cityId:0, typeId:0, categoryId:0 ,title: '', description: '', plan:'', contactEmail:'', contactTelephoneNumber:""
             , courseHomePage:'',price:""}}           
             />
