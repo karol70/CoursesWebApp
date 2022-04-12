@@ -10,11 +10,12 @@ import { courseDTO } from "../courses/courses.model";
 import { urlPrivateLessons, urlPrivateLessonsComments, urlRatings } from "../endpoints";
 import Loading from "../utils/Loading";
 import Ratings from "../utils/Ratings";
-import css from './CoursesDetails.module.css';
+import css from '../courses/CoursesDetails.module.css';
 import * as Yup from 'yup';
 import CommentField from "../forms/CommentField";
 import Button from "../utils/Button";
 import DisplayErrors from "../utils/DisplayErrors";
+import privateLessonLogo from '../images/privateLessons.png'
 
 export default function PrivateLessonDetails(){
     const{id}:any = useParams();
@@ -33,7 +34,7 @@ export default function PrivateLessonDetails(){
         try{
             await axios.post(urlPrivateLessonsComments,{courseId: id, date: new Date(), content: content, userName:getUserName()}).then(()=> {
                 Swal.fire({icon: 'success', title: 'Komentarz został dodany'}).then(function(){window.location.reload()});
-                history.push(`/course/${id}`); 
+                history.push(`/privateLessons/${id}`); 
             })      
         } catch (error :any){
             if(error && error.response){
@@ -61,7 +62,7 @@ export default function PrivateLessonDetails(){
    
 
    async function handleRate(rate: number){
-       await axios.post(urlRatings, {rating: rate, courseId: id}).then(() => {           
+       await axios.post(`${urlRatings}/privateLessons`, {rating: rate, courseId: id}).then(() => {           
             Swal.fire({icon: 'success', title: 'Dodano ocenę'}).then(function(){window.location.reload()});           
         });
     }
@@ -73,8 +74,8 @@ export default function PrivateLessonDetails(){
             <div className={css.left}> 
             
             <h3>{privateLesson.name}</h3>
-                {privateLesson.image? <img alt="img" src={privateLesson.image}/>
-                : <img alt="img" src ="https://the1thing.com/wp-content/uploads/2015/01/the_one_thing_improve_skills.jpg"/>}
+                {privateLesson.image? <img alt="img" src={require(privateLesson.image)}/>
+                : <img alt="img" src ={privateLessonLogo}/>}
                <div> Dodaj ocenę:<Ratings maximumValue={5} selectedValue={privateLesson.userVote} onChange={handleRate}/>({privateLesson.averageVote})</div>
             </div>
             

@@ -11,13 +11,11 @@ namespace CoursesApi.Controllers
     public class TypesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<TypesController> _logger;
         private readonly IMapper _mapper;
 
-        public TypesController(ApplicationDbContext context, ILogger<TypesController> logger, IMapper mapper)
+        public TypesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
-            _logger = logger;
             _mapper = mapper;
         }
 

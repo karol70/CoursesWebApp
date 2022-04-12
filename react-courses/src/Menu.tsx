@@ -40,42 +40,53 @@ export default function Menu(){
                                 Korepetycje
                             </NavLink>
                         </li>
-                        <Authorized
-                            authorized={<>
-                            <li className="nav-item">
+
+                    <Authorized
+                    authorized={<>
+                            <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Twoje konto
+                            </a>
+
+                            <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                            <Authorized
+                    authorized={<>
+                            
+                            <li className="dropdown-item">
                                 <NavLink className="nav-link" to="/course/create" >
-                                    Utwórz kurs
+                                    Dodaj kurs
                                 </NavLink>
                             </li>
                             </>}
-                        />
-                        <Authorized
-                            authorized={<>
-                            <li className="nav-item">
+                            />
+
+                         
+                        
+                            <li className="dropdown-item">
                                 <NavLink className="nav-link" to="/privateLesson/create" >
-                                    Utwórz korepetycje
+                                    Dodaj korepetycje
                                 </NavLink>
                             </li>
-                            </>}
-                        />
-                        <Authorized
-                            authorized={<>
-                            <li className="nav-item">
+                          
+                        
+                            <li className="dropdown-item">
                                 <NavLink className="nav-link" to="/user/courses" >
                                     Twoje kursy
                                 </NavLink>
                             </li>
-                            </>}
-                        />
-                        <Authorized
-                            authorized={<>
-                            <li className="nav-item">
+                            
+                        
+                            <li className="dropdown-item">
                                 <NavLink className="nav-link" to="/user/privateLessons" >
                                     Twoje korepetycje
                                 </NavLink>
                             </li>
-                            </>}
+                            </ul>
+                            </li>
+                        </>}                   
                         />
+                        
+                    
                         
                                                     
                     </ul>

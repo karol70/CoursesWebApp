@@ -2,9 +2,10 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { categoriesDTO } from "../categories/categories.model";
 import CourseForm from "../courses/CourseForm";
 import { courseCreationDTO, courseDTO } from "../courses/courses.model";
-import { urlPrivateLessons } from "../endpoints";
+import { urlPrivateLessons, urlPrivateLessonsCategories } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
 import Loading from "../utils/Loading";
@@ -15,6 +16,14 @@ export default function EditPrivateLesson(){
     const [privateLessonPutGet, setPrivateLessonPutGet] = useState<courseDTO>();
     const [errors, setErrors] = useState<string[]>([]);
     const history = useHistory();
+    const [categories, setCategories] = useState<categoriesDTO[]>([]);
+    
+    useEffect(() => {
+        axios.get(urlPrivateLessonsCategories)
+          .then((response: AxiosResponse<categoriesDTO[]>) =>{
+            setCategories(response.data);
+          })  
+        },[]);
 
     useEffect(() => {
         axios.get(`${urlPrivateLessons}/PutGet/${id}`)
@@ -63,7 +72,7 @@ export default function EditPrivateLesson(){
     return( 
     <div className="container mt-3">
             <DisplayErrors errors={errors}/>           
-            {privateLesson && privateLessonPutGet? <CourseForm title="Edytuj korepetycję" onSubmit={async values => await edit(values)}model={privateLesson}
+            {privateLesson && privateLessonPutGet? <CourseForm title="Edytuj korepetycję" categories={categories} onSubmit={async values => await edit(values)}model={privateLesson}
             />: <Loading/>}
     </div>
     )

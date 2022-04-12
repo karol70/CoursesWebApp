@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { courseDTO } from "../courses/courses.model";
-import { urlCourses } from "../endpoints";
+import { urlCourses, urlPrivateLessons } from "../endpoints";
 import AlertContext from "../utils/AlertContext";
 import Button from "../utils/Button";
 import customConfirm from "../utils/customConfirm";
@@ -15,10 +15,10 @@ export default function UserPrivateLessonsList(props: userPrivateLessonsList){
     const history = useHistory();
 
     async function deletePrivateCourse(id: number){
-        await axios.delete(`${urlCourses}/${id}`)
+        await axios.delete(`${urlPrivateLessons}/${id}`)
           .then(()=> {
               customAlert()
-              history.push('/courses')
+              history.push('/privateLessons')
           });
   }
     return(
@@ -32,7 +32,7 @@ export default function UserPrivateLessonsList(props: userPrivateLessonsList){
                 <SinglePrivateLesson {... privateLesson}/>
                 <div className={css.userbuttons}>
                 <Link style={{marginRight: '1rem'}} className="btn btn-info"
-                        to={`/course/edit/${privateLesson.id}`}
+                        to={`/privateLesson/edit/${privateLesson.id}`}
                     >Edytuj</Link>
                 <Button
                     onClick={() =>customConfirm (()=>deletePrivateCourse(privateLesson.id))}

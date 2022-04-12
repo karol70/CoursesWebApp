@@ -18,6 +18,7 @@ import CommentsList from "../comments/CommentsList";
 import { commentCreationDTO, commentDTO } from "../comments/comment.model";
 import DisplayErrors from "../utils/DisplayErrors";
 import * as Yup from 'yup';
+import courseLogo from '../images/courses.png'
 
 import AuthenticationContext from "../auth/AuthenticationContext";
 
@@ -80,8 +81,8 @@ export default function CourseDetails(){
             <div className={css.left}> 
             
             <h3>{course.name}</h3>
-                {course.image? <img alt="img" src={course.image}/>
-                : <img alt="img" src ="https://cdn-icons-png.flaticon.com/512/1478/1478950.png"/>}
+                {course.image? <img alt="img" src={require(course.image)}/>
+                : <img alt="img" src ={courseLogo}/>}
                <div> Dodaj ocenę:<Ratings maximumValue={5} selectedValue={course.userVote} onChange={handleRate}/>({course.averageVote})</div>
             </div>
             

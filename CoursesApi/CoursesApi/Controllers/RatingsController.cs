@@ -48,5 +48,33 @@ namespace CoursesApi.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpPost("privateLessons")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> PostPrivateLesson([FromBody] RatingDTO ratingDTO)
+        {
+
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var userId = user.Id;
+
+            var currentRate = await _context.PrivateLessonsRatings
+                .FirstOrDefaultAsync(x => x.PrivateLessonId == ratingDTO.CourseId && x.UserId == userId);
+
+            if (currentRate == null)
+            {
+                var rating = new PrivateLessonsRatings();
+                rating.PrivateLessonId = ratingDTO.CourseId;
+                rating.Rate = ratingDTO.Rating;
+                rating.UserId = userId;
+                _context.Add(rating);
+            }
+            else
+            {
+                currentRate.Rate = ratingDTO.Rating;
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

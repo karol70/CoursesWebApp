@@ -18,9 +18,9 @@ namespace CoursesApi.Entities
         public string? CourseHomePage { get; set; }
         public string? Image { get; set; }
 
-        public CourseCategoriesCourses PrivateLessonsCategoryPrivateLessons { get; set; }
-        public PrivateLessonsCities PrivateLessonsCities { get; set; }
-        public PrivateLessonsTypes PrivateLessonsTypes { get; set; }
+        public PrivateLessonsCategoryPrivateLesson PrivateLessonsCategoryPrivateLesson { get; set; }
+        public PrivateLessonsCities PrivateLessonsCiti { get; set; }
+        public PrivateLessonsTypes PrivateLessonsType { get; set; }
 
         public string UserId { get; set; }
     }

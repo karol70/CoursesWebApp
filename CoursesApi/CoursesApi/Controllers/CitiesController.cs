@@ -10,15 +10,15 @@ namespace CoursesApi.Controllers
     [Route("api/cities")]
     public class CitiesController: ControllerBase
     {
-        private readonly ILogger<CitiesController> _logger;
+      
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
+ 
 
-        public CitiesController(ILogger<CitiesController> logger, ApplicationDbContext context, IMapper mapper)
+        public CitiesController(ApplicationDbContext context)
         {
-            _logger = logger;
+          
             _context = context;
-            _mapper = mapper;
+            
         }
 
         [HttpGet]

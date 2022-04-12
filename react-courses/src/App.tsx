@@ -23,8 +23,8 @@ function App() {
 
   },[])
 
-  function isAdmin(){
-    return claims.findIndex(claim => claim.name==='role' && claim.value === 'admin') > -1;
+  function isLoggedIn(){
+    return claims.findIndex(claim => claim.name==='email') > -1;
   }
      
   return (
@@ -36,7 +36,7 @@ function App() {
       <Switch>
       {routes.map(route => 
             <Route key={route.path} path={route.path}  exact={route.exact}>
-              {<route.component/> }       
+              {route.isLoggedIn && !isLoggedIn()? <> Musisz się zalogować </> : <route.component/> }       
             </Route>)}
       </Switch>
       </div> 

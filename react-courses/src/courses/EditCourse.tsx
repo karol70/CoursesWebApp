@@ -2,7 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { urlCourses } from "../endpoints";
+import { categoriesDTO } from "../categories/categories.model";
+import { urlCourseCategories, urlCourses } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { convertCourseToFormData } from "../utils/formDataUtils";
 import Loading from "../utils/Loading";
@@ -16,6 +17,14 @@ export default function EditCourse (){
     const [coursePutGet, setCoursePutGet] = useState<courseDTO>();
     const [errors, setErrors] = useState<string[]>([]);
     const history = useHistory();
+    const [categories, setCategories] = useState<categoriesDTO[]>([]);
+    
+    useEffect(() => {
+        axios.get(urlCourseCategories)
+          .then((response: AxiosResponse<categoriesDTO[]>) =>{
+            setCategories(response.data);
+          })  
+        },[]);
 
     useEffect(() => {
         axios.get(`${urlCourses}/PutGet/${id}`)
@@ -65,7 +74,7 @@ export default function EditCourse (){
     return( 
     <div className="container mt-3">
             <DisplayErrors errors={errors}/>           
-            {course && coursePutGet? <CourseForm title="Edytuj kurs" onSubmit={async values => await edit(values)}model={course}
+            {course && coursePutGet? <CourseForm title="Edytuj kurs" categories={categories} onSubmit={async values => await edit(values)}model={course}
             />: <Loading/>}
     </div>
     )

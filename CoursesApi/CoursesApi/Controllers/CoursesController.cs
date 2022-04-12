@@ -15,19 +15,17 @@ namespace CoursesApi.Controllers
     [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class CoursesController : ControllerBase
     {
-        private readonly ILogger<CoursesController> _logger;
+        
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IFileStorageService _fileStorageService;
         private readonly UserManager<IdentityUser> _userManager;
         private string container = "courses";
 
-        public CoursesController(ILogger<CoursesController> logger, 
-            ApplicationDbContext context, IMapper mapper, 
+        public CoursesController( ApplicationDbContext context, IMapper mapper, 
             IFileStorageService fileStorageService,
             UserManager<IdentityUser> userManager)
-        {
-            _logger = logger;
+        {  
             _context = context;
             _mapper = mapper;
             _fileStorageService = fileStorageService;
@@ -40,7 +38,7 @@ namespace CoursesApi.Controllers
         {
             
             var coursesQueryable = _context.Courses.AsQueryable();
-            var courses = await coursesQueryable.ToListAsync();
+            var courses = await coursesQueryable.OrderByDescending(x => x.Id).ToListAsync();
             if(courses == null)
             {
                 return NotFound();
@@ -55,7 +53,7 @@ namespace CoursesApi.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             var userId = user.Id;
 
-            var coursesQueryable = _context.Courses.AsQueryable().Where(x => x.UserId == userId);
+            var coursesQueryable = _context.Courses.AsQueryable().Where(x => x.UserId == userId).OrderByDescending(x => x.Id);
             var courses = await coursesQueryable.ToListAsync();
             if (courses == null)
             {
@@ -71,7 +69,7 @@ namespace CoursesApi.Controllers
             var course = await _context.Courses
                 .Include(x => x.CourseCategoryCourse).ThenInclude(x => x.CourseCategory)
                 .Include(x => x.CourseCity).ThenInclude(x => x.City)
-                .Include(x=>x.CourseType).ThenInclude(x=>x.Type)
+                .Include(x => x.CourseType).ThenInclude(x => x.Type)
                 .FirstOrDefaultAsync(x=>x.Id ==id);
             if(course == null)
             {
@@ -100,10 +98,10 @@ namespace CoursesApi.Controllers
                     }
                 }
             }
-
             var dto = _mapper.Map<CoursesDTO>(course);
             dto.AverageVote = averageVote;
             dto.UserVote = userVote;
+            
             return dto;
         }
 
