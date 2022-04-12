@@ -100,6 +100,7 @@ export default function Curses(){
     
         history.push(`/courses?${queryStrings.join('&')}`);
         
+        
     }
 
     function searchCourses(values: filterCoursesForm){
@@ -111,7 +112,7 @@ export default function Curses(){
     }
 
     return(
-        <div className='container mt-3'>
+        <div className='container mt-3' >
             <h3>Filtry:</h3>      
         <Formik initialValues={initialValues}
          onSubmit={values => {

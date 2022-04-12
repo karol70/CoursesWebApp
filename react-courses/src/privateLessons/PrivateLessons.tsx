@@ -72,7 +72,7 @@ export default function PrivateLessons(){
         if (query.get('cityId')){
             initialValues.cityId =  parseInt(query.get('cityId')!,10);           
         }
-        searchCourses(initialValues); 
+        searchPrivateLessons(initialValues); 
 
     }, [])
 
@@ -99,7 +99,7 @@ export default function PrivateLessons(){
         
     }
 
-    function searchCourses(values: filterPrivateLessonsForm){
+    function searchPrivateLessons(values: filterPrivateLessonsForm){
         modifyURL(values);
         axios.get(`${urlPrivateLessons}/filter`, {params: values})
         .then((response: AxiosResponse<courseDTO[]>)=>{
@@ -112,7 +112,7 @@ export default function PrivateLessons(){
             <h3>Filtry:</h3>      
         <Formik initialValues={initialValues}
          onSubmit={values => {
-             searchCourses(values);
+            searchPrivateLessons(values);
             }}
          >
             {(formikProps) => (               
@@ -158,7 +158,7 @@ export default function PrivateLessons(){
                                     <Button className="btn btn-danger ms-3"
                                         onClick={() => {
                                             formikProps.setValues(initialValues);
-                                            searchCourses(initialValues);                                     
+                                            searchPrivateLessons(initialValues);                                     
                                         }}
                                     >Wyczyść</Button>
                                 </div>

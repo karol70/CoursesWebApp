@@ -13,7 +13,16 @@ export default function CourseCreation(){
 
     const history = useHistory();
     const [errors,setErrors] = useState<string[]>([]);
-       
+    const [categories, setCategories] = useState<categoriesDTO[]>([]);
+    
+    useEffect(() => {
+        axios.get(urlCourseCategories)
+          .then((response: AxiosResponse<categoriesDTO[]>) =>{
+            setCategories(response.data);
+          })  
+        },[]);
+
+
     async function create(course: courseCreationDTO)
     {   
         
@@ -38,7 +47,7 @@ export default function CourseCreation(){
     return(
         <div className="container mt-3">
             <DisplayErrors errors={errors}/>
-            <CourseForm title="Utwórz kurs" onSubmit={async values => await create(values)}
+            <CourseForm title="Utwórz kurs" categories={categories} onSubmit={async values => await create(values)}
             model={{cityId:0, typeId:0, categoryId:0 ,title: '', description: '', plan:'', contactEmail:'', contactTelephoneNumber:""
             , courseHomePage:'',price:""}}           
             />

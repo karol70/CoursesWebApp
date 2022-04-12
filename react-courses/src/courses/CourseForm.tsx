@@ -22,16 +22,8 @@ import { urlCities, urlCourseCategories, urlTypes } from "../endpoints";
  export default function CourseForm (props: courseFormProps){
 
 
-    const [categories, setCategories] = useState<categoriesDTO[]>([]);
     const [types,setTypes] = useState<typesDTO[]>([]);
     const [cities,setCities] = useState<citiesDTO[]>([]);
-
-    useEffect(() => {
-        axios.get(urlCourseCategories)
-          .then((response: AxiosResponse<categoriesDTO[]>) =>{
-            setCategories(response.data);
-          })  
-        },[]);
 
     useEffect(() => {
         axios.get(urlTypes)
@@ -74,7 +66,7 @@ import { urlCities, urlCourseCategories, urlTypes } from "../endpoints";
 
                     <TextField displayName="Opis *" field="description" />
 
-                    <SelectField displayName="Kategoria *" field="categoryId" message="Wybierz kategorię" options={categories}
+                    <SelectField displayName="Kategoria *" field="categoryId" message="Wybierz kategorię" options={props.categories}
                     other={formikProps}/>
 
                     <SelectField displayName="Typ *" field="typeId" message="Wybierz typ" options={types}
@@ -103,4 +95,5 @@ interface courseFormProps{
     model: courseCreationDTO;   
     onSubmit(values: courseCreationDTO,actions: FormikHelpers<courseCreationDTO>): void;
     title: string;
+    categories: categoriesDTO[];
 }

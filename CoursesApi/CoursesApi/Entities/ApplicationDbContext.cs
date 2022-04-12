@@ -51,6 +51,16 @@ namespace CoursesApi.Entities
             modelBuilder.Entity<CoursesTypes>()
                 .HasKey(x => new { x.TypeId, x.CourseId });
 
+
+            modelBuilder.Entity<PrivateLessonsCategoryPrivateLesson>()
+               .HasKey(x => new { x.PrivateLessonsCategoryId, x.PrivateLessonId });
+
+            modelBuilder.Entity<PrivateLessonsCities>()
+                .HasKey(x => new { x.CityId, x.PrivateLessonId });
+
+            modelBuilder.Entity<PrivateLessonsTypes>()
+                .HasKey(x => new { x.TypeId, x.PrivateLessonId });
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -61,10 +71,19 @@ namespace CoursesApi.Entities
         public DbSet<CourseCategory> CoursesCategories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Type> Types { get; set; }
-        public DbSet<PrivateLesson> PrivateLessons { get; set; }
-        public DbSet<PrivateLessonsCategory> PrivateLessonsCategories { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<CourseComments> CourseComments { get; set; }
+
+
+
+        public DbSet<PrivateLesson> PrivateLessons { get; set; }
+        public DbSet<PrivateLessonsCategory> PrivateLessonsCategories { get; set; }  
+        public DbSet<PrivateLessonsCategoryPrivateLesson> PrivateLessonsCategoriesPrivateLessons { get; set; }
+        public DbSet<PrivateLessonsCities> PrivateLessonsCities { get; set; }
+        public DbSet<PrivateLessonsTypes> PrivateLessonsTypes { get; set;}
+        public DbSet<PrivateLessonsComments> PrivateLessonsComments { get; set; }
+        public DbSet<PrivateLessonsRatings> PrivateLessonsRatings { get;set; }
+
 
     }
 
