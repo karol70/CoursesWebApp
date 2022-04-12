@@ -28,10 +28,7 @@ namespace CoursesApi.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<AuthenticationResponse>> Create([FromBody] UserCredentials userCredentials)
         {
-            if(userCredentials.UserName == null)
-            {
-                userCredentials.UserName = userCredentials.Email;
-            }
+            
             var userExists = await _userManager.FindByEmailAsync(userCredentials.Email);
             if(userExists == null)
             {
@@ -58,20 +55,24 @@ namespace CoursesApi.Controllers
         public async Task<ActionResult<AuthenticationResponse>> Login([FromBody] UserCredentials userCredentials)
         {
             var user = await _userManager.FindByEmailAsync(userCredentials.Email);
-            var userName = user.UserName;
-            userCredentials.UserName = userName;
-
-            var result = await _signInManager.PasswordSignInAsync(userCredentials.UserName, userCredentials.Password, isPersistent: false,
-                lockoutOnFailure: false);
-
-            if (result.Succeeded)
+            if (user != null)
             {
-                return BuildToken(userCredentials);
-            } 
-            else
-            {
-                return BadRequest("");
+                var userName = user.UserName;
+                userCredentials.UserName = userName;
+
+                var result = await _signInManager.PasswordSignInAsync(userCredentials.UserName, userCredentials.Password, isPersistent: false,
+                    lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    return BuildToken(userCredentials);
+                }
+                else
+                {
+                    return BadRequest("Nieprawidłowe dane");
+                }
             }
+            return BadRequest("Nieprawidłowe dane, spróbuj ponownie");
         }
 
         private AuthenticationResponse BuildToken(UserCredentials userCredentials)

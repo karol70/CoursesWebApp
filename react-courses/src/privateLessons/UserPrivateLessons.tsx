@@ -5,20 +5,24 @@ import { urlPrivateLessons } from "../endpoints";
 import Loading from "../utils/Loading";
 import UserPrivateLessonsList from "./UserPrivateLessonsList";
 
-export default function UserPrivateLessons(){
+export default function UserPrivateLessons() {
+  const [privateLessons, setPrivateLessons] = useState<courseDTO[]>([]);
 
-    const [privateLessons, setPrivateLessons] = useState<courseDTO[]>([])
+  useEffect(() => {
+    axios
+      .get(`${urlPrivateLessons}/userPrivateLessons`)
+      .then((response: AxiosResponse<courseDTO[]>) => {
+        setPrivateLessons(response.data);
+      });
+  }, []);
 
-    useEffect(()=>{
-         axios.get(`${urlPrivateLessons}/userPrivateLessons`)
-            .then((response: AxiosResponse<courseDTO[]>) =>{
-            setPrivateLessons (response.data);
-            })
-    },[])
-
-    return(
-        <>
-        {privateLessons? <UserPrivateLessonsList privateLessons={privateLessons} /> : <Loading/>}
-        </>       
-    )
+  return (
+    <>
+      {privateLessons ? (
+        <UserPrivateLessonsList privateLessons={privateLessons} />
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 }

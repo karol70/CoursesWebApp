@@ -1,6 +1,3 @@
-import path from "path"
-import { Component } from "react"
-import { withRouter } from "react-router-dom"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
 import CourseCreation from "./courses/CourseCreation"
