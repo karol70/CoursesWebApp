@@ -58,7 +58,8 @@ namespace CoursesApi
             services.AddScoped<CourseTypeSeeder>();
             services.AddScoped<PrivateLessonsCategorySeeder>();
 
-            services.AddScoped<IFileStorageService, InAppStorageService>();
+           // services.AddScoped<IFileStorageService, InAppStorageService>();
+            services.AddScoped<IFileStorageService, AzureStorageService>();
             services.AddHttpContextAccessor();
 
             
