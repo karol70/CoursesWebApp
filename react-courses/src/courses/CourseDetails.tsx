@@ -84,7 +84,7 @@ export default function CourseDetails() {
           <div className={css.left}>
             <h3>{course.name}</h3>
             {course.image ? (
-              <img alt="img" src={require(course.image)} />
+              <img alt="img" src={course.image} />
             ) : (
               <img alt="img" src={courseLogo} />
             )}
@@ -110,6 +110,9 @@ export default function CourseDetails() {
                 <p>{course.plan}</p>
               </div>
             ) : null}
+
+            <h4>Miasto:</h4>
+            <p>{course.city.name}</p>
 
             <h4>Tryb i forma szkolenia:</h4>
             <p>{course.type.name}</p>

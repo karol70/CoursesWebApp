@@ -90,7 +90,7 @@ export default function PrivateLessonDetails() {
           <div className={css.left}>
             <h3>{privateLesson.name}</h3>
             {privateLesson.image ? (
-              <img alt="img" src={require(privateLesson.image)} />
+              <img alt="img" src={privateLesson.image} />
             ) : (
               <img alt="img" src={privateLessonLogo} />
             )}
@@ -117,8 +117,11 @@ export default function PrivateLessonDetails() {
               </div>
             ) : null}
 
-            <h4>Tryb i forma szkolenia:</h4>
+            <h4>Miasto:</h4>
             <p>{privateLesson.type.name}</p>
+
+            <h4>Tryb i forma szkolenia:</h4>
+            <p>{privateLesson.city.name}</p>
 
             {privateLesson.price ? (
               <div>

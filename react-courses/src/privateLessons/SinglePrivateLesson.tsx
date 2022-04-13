@@ -41,7 +41,7 @@ export default function SinglePrivateLesson(props: courseDTO) {
     <div className={css.div}>
       <Link to={buildLink()}>
         {props.image ? (
-          <img alt="img" src={require(props.image)} />
+          <img alt="img" src={props.image} />
         ) : (
           <img alt="img" src={privateLessonLogo} />
         )}
